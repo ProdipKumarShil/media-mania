@@ -6,8 +6,8 @@ connect()
 
 export default function Home() {
   return (
-    <main>
-   
-    </main>
+    <div>
+      <p>Hello from next js</p>
+    </div>
   );
 }
