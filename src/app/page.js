@@ -2,8 +2,6 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from "@/components/ui/button";
 import connect from "@/lib/mongoose";
 
-connect()
-
 export default function Home() {
   return (
     <div>
