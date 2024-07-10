@@ -1,34 +1,39 @@
-import { Button } from '@/components/ui/button';
-import Image from 'next/image';
-import React from 'react';
-import banner from '../../public/banner.jpg'
+import AllBlogs from "@/components/homeComponent/AllBlogs/AllBlogs";
+import Banner from "@/components/homeComponent/Banner";
+import RecentBlogs from "@/components/homeComponent/RecentBlogs";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+
 
 const page = () => {
     return (
-      <div className='grid grid-rows-2 justify-center md:grid-cols-2 items-center bg-gray-100 p-10'>
+      <div className=' py-10 m-10'>
        
-       <div className='me-10 flex justify-center'>
-       <Image
-       src={banner}
-       alt='banner'
-       className=' shadow-black shadow-xl '
-       height={600}
-       width={400}/>
-       </div>
+      <Banner/>
+      <RecentBlogs/>
+      <AllBlogs/>
 
-       <div className='ps-8 flex flex-col justify-center w-80 '>
-
-        <p className='my-10 text-xs text-gray-400'>Latest post</p>
-
-        <h2 className='text-4xl font-bold'>
-        Let a thousand programming publications bloom.
-       
-        </h2>
-
-        <p className='my-10 text-xs text-gray-400'>December 28, 2019</p>
-          
-          <Button variant='default'>Read more</Button>
-       </div>
+      <Pagination >
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious href="#" />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">1</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">2</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationLink href="#">3</PaginationLink>
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext href="#" />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
 
       </div>
     );
