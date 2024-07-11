@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import React from 'react';
 import { GiArmoredBoomerang } from 'react-icons/gi';
+import { BsArrowUpRight } from "react-icons/bs";
+
 import blog2 from '../../../../public/blog (2).png'
 
 const AllBlogs = () => {
@@ -26,7 +28,7 @@ const AllBlogs = () => {
 <h3 className='text-xl font-semibold'>Building your API Stack</h3>
 <p className='text-[16px] text-gray-500 py-2'>The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manag....</p>
 <div className='flex justify-end'>
-<GiArmoredBoomerang  className=' '/>
+<BsArrowUpRight    className='font-bold text-black dark:text-white '/>
 </div>
 
 {/* tags  */}
@@ -38,14 +40,13 @@ const AllBlogs = () => {
 
 </div>
     </div>
-            
             {/* card 1 */}
             <div className=' flex flex-col justify-center items-center  gap-2 p-4 md:p-0'>
          
          <Image
          src={blog2}
          alt='Blog Image'
-         width={620}
+         width={600}
          height={240}
          />
 
@@ -54,7 +55,7 @@ const AllBlogs = () => {
 <h3 className='text-xl font-semibold'>Building your API Stack</h3>
 <p className='text-[16px] text-gray-500 py-2'>The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manag....</p>
 <div className='flex justify-end'>
-<GiArmoredBoomerang  className=' '/>
+<BsArrowUpRight    className='font-bold text-black dark:text-white '/>
 </div>
 
 {/* tags  */}
@@ -66,14 +67,13 @@ const AllBlogs = () => {
 
 </div>
     </div>
-            
             {/* card 1 */}
             <div className=' flex flex-col justify-center items-center  gap-2 p-4 md:p-0'>
          
          <Image
          src={blog2}
          alt='Blog Image'
-         width={620}
+         width={600}
          height={240}
          />
 
@@ -82,7 +82,7 @@ const AllBlogs = () => {
 <h3 className='text-xl font-semibold'>Building your API Stack</h3>
 <p className='text-[16px] text-gray-500 py-2'>The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manag....</p>
 <div className='flex justify-end'>
-<GiArmoredBoomerang  className=' '/>
+<BsArrowUpRight    className='font-bold text-black dark:text-white '/>
 </div>
 
 {/* tags  */}
@@ -94,14 +94,13 @@ const AllBlogs = () => {
 
 </div>
     </div>
-            
             {/* card 1 */}
             <div className=' flex flex-col justify-center items-center  gap-2 p-4 md:p-0'>
          
          <Image
          src={blog2}
          alt='Blog Image'
-         width={620}
+         width={600}
          height={240}
          />
 
@@ -110,7 +109,7 @@ const AllBlogs = () => {
 <h3 className='text-xl font-semibold'>Building your API Stack</h3>
 <p className='text-[16px] text-gray-500 py-2'>The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manag....</p>
 <div className='flex justify-end'>
-<GiArmoredBoomerang  className=' '/>
+<BsArrowUpRight    className='font-bold text-black dark:text-white '/>
 </div>
 
 {/* tags  */}
@@ -122,14 +121,13 @@ const AllBlogs = () => {
 
 </div>
     </div>
-            
             {/* card 1 */}
             <div className=' flex flex-col justify-center items-center  gap-2 p-4 md:p-0'>
          
          <Image
          src={blog2}
          alt='Blog Image'
-         width={620}
+         width={600}
          height={240}
          />
 
@@ -138,7 +136,7 @@ const AllBlogs = () => {
 <h3 className='text-xl font-semibold'>Building your API Stack</h3>
 <p className='text-[16px] text-gray-500 py-2'>The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manag....</p>
 <div className='flex justify-end'>
-<GiArmoredBoomerang  className=' '/>
+<BsArrowUpRight    className='font-bold text-black dark:text-white '/>
 </div>
 
 {/* tags  */}
@@ -150,14 +148,13 @@ const AllBlogs = () => {
 
 </div>
     </div>
-            
             {/* card 1 */}
             <div className=' flex flex-col justify-center items-center  gap-2 p-4 md:p-0'>
          
          <Image
          src={blog2}
          alt='Blog Image'
-         width={620}
+         width={600}
          height={240}
          />
 
@@ -166,7 +163,7 @@ const AllBlogs = () => {
 <h3 className='text-xl font-semibold'>Building your API Stack</h3>
 <p className='text-[16px] text-gray-500 py-2'>The rise of RESTful APIs has been met by a rise in tools for creating, testing, and manag....</p>
 <div className='flex justify-end'>
-<GiArmoredBoomerang  className=' '/>
+<BsArrowUpRight    className='font-bold text-black dark:text-white '/>
 </div>
 
 {/* tags  */}

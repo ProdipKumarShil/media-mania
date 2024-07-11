@@ -7,6 +7,7 @@ import People from "../../../../public/people.jpg"
 import LoginBtn from './LoginBtn';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import ModeToggle from '../DarkModeButton/ModeToggle';
 
 const Header = () => {
   
@@ -31,6 +32,8 @@ const Header = () => {
 
 <Button variant="default" className=
 'text-xl'>login</Button>
+
+<ModeToggle/>
      </div>
       
     </div>
