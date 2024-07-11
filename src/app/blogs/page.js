@@ -1,6 +1,6 @@
 'use client'
 
-import BlogCard from '@/components/shared/BlogCard'
+import BlogCard from '@/components/Shared/BlogCard/BlogCard'
 import { useGetBlogsQuery } from '@/redux/api/baseApi'
 import React from 'react'
 
