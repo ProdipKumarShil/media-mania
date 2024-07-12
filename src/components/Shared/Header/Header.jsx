@@ -1,15 +1,15 @@
+'use client'
 
 import Image from 'next/image';
 import Logo from "@/assets/logos/logoCrop.png"
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import ModeToggle from '../DarkModeButton/ModeToggle';
+import { signOut } from 'next-auth/react';
 
-const Header = () => {
-
+const Header = ({ session }) => {
   return (
-
-    <div className='flex justify-between items-center bg-gray-100 p-2'>
+    <div className='flex justify-between items-center bg-white py-[30px] lg-screen'>
       <Link href="/">
         <Image
           src={Logo}
@@ -28,9 +28,12 @@ const Header = () => {
             <li><Link href='about' className='pe-8'>About</Link></li>
           </ul>
 
-          <Button variant="default" className=
-            'text-xl'>login</Button>
-
+          {
+            session?.user ? <Image className="size-10 rounded-full" width={100} height={100} src={session?.user?.image} /> : <Link href='/login'><Button variant="default" className='text-xl'>login</Button></Link>
+          }
+          {
+            session?.user && <Button onClick={() => signOut()}>Logout</Button>
+          }
           <ModeToggle />
         </div>
 
