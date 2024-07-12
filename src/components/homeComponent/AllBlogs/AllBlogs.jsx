@@ -3,7 +3,7 @@ import React from 'react';
 import { GiArmoredBoomerang } from 'react-icons/gi';
 import { BsArrowUpRight } from "react-icons/bs";
 
-import blog2 from '@/assets/imgs/blogImage.png'
+import blog2 from '../../../../public/blog (2).png'
 
 const AllBlogs = () => {
     return (
