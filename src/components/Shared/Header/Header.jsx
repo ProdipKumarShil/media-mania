@@ -29,7 +29,7 @@ const Header = ({ session }) => {
           </ul>
 
           {
-            session?.user ? <Image className="size-10 rounded-full" width={100} height={100} src={session?.user?.image} /> : <Link href='/login'><Button variant="default" className='text-xl'>login</Button></Link>
+            session?.user ? <Image className="size-10 rounded-full"alt='user' width={100} height={100} src={session?.user?.image} /> : <Link href='/login'><Button variant="default" className='text-xl'>login</Button></Link>
           }
           {
             session?.user && <Button onClick={() => signOut()}>Logout</Button>
