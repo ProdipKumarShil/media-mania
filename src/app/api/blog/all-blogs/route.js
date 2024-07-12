@@ -7,8 +7,8 @@ export const GET = async() => {
     await connect()
     const allBlogs = await Blog.find()
     const blogCount = allBlogs.length
-    return new NextResponse(JSON.stringify({count : blogCount, blogs: allBlogs}))
+    return NextResponse.json({count : blogCount, blogs: allBlogs}, {status: 200})
   } catch (error) {
-    return new NextResponse(JSON.stringify({status: false, message: 'Something went wrong'}), {status: 500})
+    return NextResponse.json({status: false, message: 'Something went wrong'}, {status: 500})
   }
 }
