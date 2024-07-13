@@ -14,7 +14,6 @@ import { Button } from '../../ui/button'
 import Image from 'next/image'
 
 const BlogCard = ({ blog }) => {
-  console.log(blog)
   return (
     <Card className="border-none shadow-none">
       <CardHeader className="p-0 mb-8">
