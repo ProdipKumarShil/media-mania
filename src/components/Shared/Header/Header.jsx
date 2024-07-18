@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 
 const Header = async() => {
   const session = await getServerSession(authOptions)
-  console.log(session)
   return (
     <div className='flex justify-between items-center bg-white py-[30px] lg-screen'>
       <Link href="/">
