@@ -1,22 +1,18 @@
-'use client'
-
 import Image from 'next/image';
 import Logo from "@/assets/logos/logoCrop.png"
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import ModeToggle from '../DarkModeButton/ModeToggle';
-import { signOut } from 'next-auth/react';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { Button } from '@/components/ui/button';
 
-const Header = ({ session }) => {
+const Header = async() => {
+  const session = await getServerSession(authOptions)
+  console.log(session)
   return (
     <div className='flex justify-between items-center bg-white py-[30px] lg-screen'>
       <Link href="/">
-        <Image
-          src={Logo}
-          height={200}
-          width={200}
-          alt='mediaMania'
-        />
+        <Image src={Logo} height={200} width={200} alt='mediaMania' />
       </Link>
 
       <div className='hidden w-full md:block md:w-auto'>
@@ -28,26 +24,11 @@ const Header = ({ session }) => {
             <li><Link href='about' className='pe-8'>About</Link></li>
           </ul>
 
-          {
-            session?.user ? <Image className="size-10 rounded-full"alt='user' width={100} height={100} src={session?.user?.image} /> : <Link href='/login'><Button variant="default" className='text-xl'>login</Button></Link>
-          }
-          {
-            session?.user && <Button onClick={() => signOut()}>Logout</Button>
-          }
+          {session?.user && <Image className="size-10 rounded-full" alt='user' width={100} height={100} src={session?.user?.image} />}
+          {session ? <Link href='/api/auth/signout?callbackUrl=/'><Button>Logout</Button></Link> : <Link href='/api/auth/signin'><Button>Login</Button></Link>}
           <ModeToggle />
         </div>
-
       </div>
-
-      {/* <div>
-  <ul>
-  <li><Link href='/' className=''>Home</Link></li>
-        <li><Link href='blogs' className='p-8'>Project</Link></li>
-        <li><Link href='blogs' className='p-8'>Blogs</Link></li>
-        <li><Link href='about' className='p-8'>About</Link></li>
-  </ul>
-</div> */}
-
     </div>
 
   );
