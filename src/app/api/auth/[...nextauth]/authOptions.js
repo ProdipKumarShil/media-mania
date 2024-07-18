@@ -7,7 +7,6 @@ export const authOptions = {
   providers: [
     GithubProvider({
       profile(profile) {
-        console.log(profile)
         let userRole = 'github_user'
         if(profile?.email == 'prodipkrishna01@gmail.com'){
           userRole = 'admin'
@@ -38,12 +37,21 @@ export const authOptions = {
           image: profile?.picture,
           role: userRole
         }
-        console.log(authProfile)
         return authProfile
       },
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET
     })
   ],
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({token, user}){
+      if(user) token.role = user.role
+      return token
+    },
+    async session({session, token}){
+      if(session?.user) session.user.role = token.role
+      return session
+    }
+  }
 }
