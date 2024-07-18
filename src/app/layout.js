@@ -1,11 +1,12 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/lib/reduxProvider/Providers";
 import Header from "@/components/Shared/Header/Header";
 import Footer from "@/components/Shared/Footer/Footer";
 import { ThemeProvider } from "@/lib/themeProvider";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/authOptions";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
+import AuthProvider from "@/lib/SessionProvider/AuthProvider";
+import { ReduxProvider } from "@/lib/reduxProvider/ReduxProvider";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,13 +21,15 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en"  >
       <body className={inter.className}>
-        <Providers>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange >
-            <Header session={session} />
-            {children}
-            <Footer />
-          </ThemeProvider>
-        </Providers>
+        <AuthProvider>
+          <ReduxProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange >
+              <Header session={session} />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </ReduxProvider>
+        </AuthProvider>
       </body>
     </html>
   );
