@@ -2,13 +2,14 @@ import User from '@/lib/models/User.model'
 import connect from '@/lib/mongoose'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
+import CredentialProvider from 'next-auth/providers/credentials'
 
 export const authOptions = {
   providers: [
     GithubProvider({
       profile(profile) {
         let userRole = 'github_user'
-        if(profile?.email == 'prodipkrishna01@gmail.com'){
+        if (profile?.email == 'prodipkrishna01@gmail.com') {
           userRole = 'admin'
         }
         return {
@@ -23,13 +24,13 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_SECRET
     }),
     GoogleProvider({
-      profile(profile){
+      profile(profile) {
 
         let userRole = 'google_user'
-        if(profile?.email == 'prodipkrishna01@gmail.com'){
+        if (profile?.email == 'prodipkrishna01@gmail.com') {
           userRole = 'admin'
         }
-        
+
         const authProfile = {
           id: profile?.sub,
           name: profile?.given_name + ' ' + profile?.family_name,
@@ -41,16 +42,33 @@ export const authOptions = {
       },
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET
-    })
+    }),
+    CredentialProvider({
+      name: 'Credentials',
+      credentials: {
+        email: {
+          label: 'Email',
+          type: 'text',
+          placeholder: 'Your Email'
+        },
+        password: {
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Your Password'
+        }
+      },
+    },
+    
+  )
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({token, user}){
-      if(user) token.role = user.role
+    async jwt({ token, user }) {
+      if (user) token.role = user.role
       return token
     },
-    async session({session, token}){
-      if(session?.user) session.user.role = token.role
+    async session({ session, token }) {
+      if (session?.user) session.user.role = token.role
       return session
     }
   }

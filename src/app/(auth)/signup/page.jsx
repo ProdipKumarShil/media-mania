@@ -1,11 +1,10 @@
+import SignUp from '@/components/Shared/SignUp/SignUp';
 import Link from 'next/link';
-import React from 'react';
 
 const page = () => {
     return (
-        <div>
-            its sgn up
-            go to  <Link href='/signin'>sign in</Link>
+        <div className='max-w-lg mx-auto py-8'>
+            <SignUp />
         </div>
     );
 };

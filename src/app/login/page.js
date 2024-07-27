@@ -9,6 +9,7 @@ const page = () => {
   return (
     <div className='p-10 bg-slate-200'>
       <div className='max-w-screen-sm mx-auto'>
+        <LoginPage />
       </div>
 
     </div>
