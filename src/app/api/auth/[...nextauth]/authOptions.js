@@ -3,6 +3,7 @@ import connect from '@/lib/mongoose'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialProvider from 'next-auth/providers/credentials'
+import bcrypt from 'bcrypt'
 
 export const authOptions = {
   providers: [
@@ -57,6 +58,27 @@ export const authOptions = {
           placeholder: 'Your Password'
         }
       },
+      async authorize(credentials){
+        console.log(credentials)
+        try {
+          await connect()
+          const foundUser = await User.findOne({email: credentials.email}).lean().exec()
+          if(foundUser){
+            console.log('user exists')
+            const match = await bcrypt.compare(credentials.password, foundUser.password)
+
+            if(match){
+              console.log('Good pass')
+              delete foundUser.password
+              foundUser['role'] = 'unverified email'
+              return foundUser
+            }
+          }
+          console.log('user exists')
+        } catch (error) {
+          console.log(error)
+        }
+      }
     },
     
   )
