@@ -1,10 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Shared/Header/Header";
-import Footer from "@/components/Shared/Footer/Footer";
 import { ThemeProvider } from "@/lib/themeProvider";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import AuthProvider from "@/lib/SessionProvider/AuthProvider";
 import { ReduxProvider } from "@/lib/reduxProvider/ReduxProvider";
 
@@ -17,16 +13,13 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const session = await getServerSession(authOptions)
   return (
     <html lang="en"  >
       <body className={inter.className}>
         <AuthProvider>
           <ReduxProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange >
-              <Header session={session} />
               {children}
-              <Footer />
             </ThemeProvider>
           </ReduxProvider>
         </AuthProvider>
