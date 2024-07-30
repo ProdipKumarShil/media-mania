@@ -1,8 +1,14 @@
-import React from 'react'
+import DBarChart from "@/components/Shared/DBarChart/DBarChart"
+import DPieChart from "@/components/Shared/DPieChart/DPieChart"
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <div className=''>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4  ">
+        <DBarChart />
+        <DPieChart />
+      </div>
+    </div>
   )
 }
 
