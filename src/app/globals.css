@@ -6,10 +6,6 @@
   @apply max-w-screen-xl mx-auto p-4
 }
 
-.ql-container{
-  height: 250px;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
