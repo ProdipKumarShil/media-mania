@@ -10,7 +10,7 @@ const page = () => {
        
       {/* <Banner/> */}
       <RecentBlogs/>
-      {/* <AllBlogs/>
+      <AllBlogs/>
 
       <Pagination >
   <PaginationContent>
@@ -33,7 +33,7 @@ const page = () => {
       <PaginationNext href="#" />
     </PaginationItem>
   </PaginationContent>
-</Pagination> */}
+</Pagination>
 
       </div>
     );
