@@ -9,7 +9,7 @@ const SingleBlog = () => {
     <div>
       <Image className="w-full h-[458px] object-cover mb-8" quality={100} width={2000} height={2000} src='https://images.unsplash.com/photo-1696733585001-868eb49cbfa6?q=80&w=1399&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt="Single Blog Image" />
       <div className="grid gap-8 grid-cols-1 md:grid-cols-12 lg-screen">
-        <div className=" w-full col-span-3">
+        <div className="order-2 md:order-1 w-full md:col-span-4 lg:col-span-3">
           <div className="w-full h-[200px] bg-zinc-300 mb-8 flex justify-center items-center">
             <p className="text-xl font-bold">Ad Block</p>
           </div>
@@ -24,7 +24,7 @@ const SingleBlog = () => {
             <SideBlogCard />
           </div>
         </div>
-        <div className=" w-full col-span-9">
+        <div className="order-1 md:order-2 w-full md:col-span-8 lg:col-span-9">
           <p className="text-[#6941C6] text-sm font-semibold mb-8">Sunday , 1 Jan 2023</p>
           <p className="text-4xl font-bold mb-8">Introduction to MongoDB with Mongoose</p>
           <p className="mb-8 text-base font-bold text-[#667085]">A grid system is a design tool used to arrange content on a webpage. It is a series of vertical and horizontal lines that create a matrix of intersecting points, which can be used to align and organize page elements. Grid systems are used to create a consistent look and feel across a website, and can help to make the layout more visually appealing and easier to navigate.</p>
