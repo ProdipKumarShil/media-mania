@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 const Header = async() => {
   const session = await getServerSession(authOptions)
   return (
-    <div className='flex justify-between items-center bg-white py-[30px] lg-screen'>
+    <div className='flex justify-between items-center bg-white py-[30px] px-2'>
       <Link href="/">
         <Image src={Logo} height={200} width={200} alt='mediaMania' />
       </Link>
