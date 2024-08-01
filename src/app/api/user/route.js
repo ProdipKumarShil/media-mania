@@ -1,0 +1,31 @@
+import User from "@/lib/models/User.model"
+import connect from "@/lib/mongoose"
+import { NextResponse } from "next/server"
+import bcrypt from 'bcrypt'
+
+export async function POST(req) {
+  try {
+    const body = await req.json()
+    // check data exists
+    if(!body?.email || !body?.password) {
+      return NextResponse.json({message: 'All fields are required'}, {status: 400})
+    }
+    await connect()
+    // check duplicate 
+    const duplicate = await User.findOne({email: body.email}).lean().exec()
+    if(duplicate){
+      return NextResponse.json({message: 'Duplicate email'}, {status: 409})
+    }
+    const hashPassword = await bcrypt.hash(body.password, 10)
+    body.password = hashPassword
+    await User.create(body)
+    return NextResponse.json({message: 'User Created', status: true}, {status: 201})
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({message: 'Error', error, status: false}, {status: '500'})
+  }
+}
+
+export const GET = () => {
+  return NextResponse.json({status: 'user route'})
+}
