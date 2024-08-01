@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Footer = () => {
@@ -9,6 +10,8 @@ const Footer = () => {
             <li>linkdin</li>
             <li>email</li>
             <li>Rss</li>
+            <li>Rss</li>
+            <li><Link href='/dashboard'>Dashboard</Link></li>
          </ul>
         </div>
     );

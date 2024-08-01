@@ -6,8 +6,15 @@ export const baseApi = createApi({
   endpoints: (builder) => ({
     getBlogs: builder.query({
       query: () => '/blog/all-blogs'
+    }),
+    postFormData: builder.mutation({
+      query: (formData) => ({
+        url: '/user',
+        method: 'POST',
+        body: formData
+      })
     })
   })
 })
 
-export const {useGetBlogsQuery} = baseApi
+export const {useGetBlogsQuery, usePostFormDataMutation} = baseApi

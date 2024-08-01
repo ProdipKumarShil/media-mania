@@ -6,9 +6,9 @@ import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, Pagi
 
 const page = () => {
     return (
-      <div className=' py-10 m-10'>
+      <div className='lg-screen'>
        
-      <Banner/>
+      {/* <Banner/> */}
       <RecentBlogs/>
       <AllBlogs/>
 
