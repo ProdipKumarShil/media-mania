@@ -59,22 +59,22 @@ export const authOptions = {
         }
       },
       async authorize(credentials){
-        console.log(credentials)
         try {
           await connect()
           const foundUser = await User.findOne({email: credentials.email}).lean().exec()
           if(foundUser){
-            console.log('user exists')
             const match = await bcrypt.compare(credentials.password, foundUser.password)
 
             if(match){
-              console.log('Good pass')
               delete foundUser.password
-              foundUser['role'] = 'unverified email'
+              if(foundUser?.email == 'admin@email.com'){
+                foundUser['role'] = 'admin'
+              } else {
+                foundUser['role'] = 'unverified email'
+              }
               return foundUser
             }
           }
-          console.log('user exists')
         } catch (error) {
           console.log(error)
         }
