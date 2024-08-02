@@ -1,10 +1,12 @@
 import SideBlogCard from "@/components/Shared/BlogCard/SideBlogCard"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 
-const SingleBlog = () => {
+const SingleBlog = async({params}) => {
+  const response = await fetch(`http://localhost:3000/api/blog?id=${params.blogId}`)
+  const post = await response.json()
+  console.log(post)
   return (
     <div>
       <Image className="w-full h-[458px] object-cover mb-8" quality={100} width={2000} height={2000} src='https://images.unsplash.com/photo-1696733585001-868eb49cbfa6?q=80&w=1399&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' alt="Single Blog Image" />
