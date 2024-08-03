@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React from 'react';
 
-import blogBanner from '@/assets/imgs/bannerab.jpg'
+import blogBanner from '@/assets/imgs/bannerAb.jpg'
 import team1 from '@/assets/imgs/tmg-4.png'
 import team2 from '@/assets/imgs/tmg-1.png'
 import team3 from '@/assets/imgs/tmg-2.png'
