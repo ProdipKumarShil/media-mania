@@ -14,15 +14,9 @@ const BlogSchema = new Schema(
     primaryImage: { type: String, required: true },
     secondaryImage: { type: String, required: true },
     tags: { type: Array, required: true },
-    author: {
-      type: {
-        name: { type: String, required: true },
-        image: { type: String, required: true },
-        email: { type: String, required: true }
-      },
-      required: true
-    },
-      text: { type: String, required: true }
+    approved: { type: Boolean },
+    author: { type: AuthorSchema, required: true },
+    text: { type: String, required: true }
   },
   {
     timestamps: true

@@ -12,6 +12,7 @@ import TagsInput from './TagsInput';
 import { useUser } from '@/lib/useUser/useUser';
 import { usePostBlogMutation } from '@/redux/api/baseApi';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 const blogSchema = z.object({
   title: z.string(),
@@ -24,7 +25,8 @@ const blogSchema = z.object({
     name: z.string(),
     email: z.string(),
     image: z.string()
-  })
+  }),
+  approved: z.boolean().optional()
 })
 
 const PostBlog = () => {
@@ -40,11 +42,14 @@ const PostBlog = () => {
       secondaryImage: '',
       tags: [],
       text: '',
-      author: {name: '', image: '', email: ''}
+      author: {name: '', image: '', email: ''},
+      approved: false
     }
   })
   const onSubmit = async (value) => {
     value.author = user
+    value.approved = false
+    console.log(value)
     try {
       const response = await postBlog(value).unwrap()
       console.log(response)
@@ -114,8 +119,7 @@ const PostBlog = () => {
             </FormControl>
           </FormItem>
         )} />
-
-        <Button type='submit' className=' w-full mt-3'>Post</Button>
+        {isLoading ? <Button disabled={true} type='submit' className='cursor-progress w-full mt-3 '><Loader2 className="mr-2 h-4 w-4 animate-spin" />Posting your blog</Button> : <Button type='submit' className=' w-full mt-3'>Post</Button>}
       </form>
     </Form>
   )
