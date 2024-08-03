@@ -16,6 +16,8 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { usePostFormDataMutation } from '@/redux/api/baseApi'
+import { Loader2 } from 'lucide-react'
+import Link from 'next/link'
 
 const passwordValidation = new RegExp(
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
@@ -45,7 +47,10 @@ const LoginPage = () => {
   const onSubmit = async(value) => {
     try {
       const response = await postFormData(value).unwrap()
-      console.log(response)
+
+      if(response?.status){
+        router.push('/dashboard')
+      }
     } catch (error) {
       console.log(error)
     }
@@ -90,7 +95,8 @@ const LoginPage = () => {
             <FormMessage />
           </FormItem>
         )} />
-        <Button className="w-full" type="submit">Submit</Button>
+        <p className='text-xs'>Already have account <Link className=' underline font-semibold' href='/api/auth/signin'>Sign in</Link></p>
+        {isLoading ? <Button disabled className="w-full" type="submit"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating your account</Button> : <Button className="w-full" type="submit">Create account</Button>}
       </form>
     </Form>
   )

@@ -1,15 +1,9 @@
 import Link from "next/link"
 import {
   CircleUser,
-  Home,
   Menu,
   Package2,
   Search,
-  UserCheck2,
-  PackagePlus,
-  PenBox,
-  ContainerIcon,
-  MessageSquare,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -28,19 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-
-const NavMenu = () => {
-  return (
-    <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-      <Link href='/dashboard' className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"><Home className="size-4" />Dashboard</Link>
-      <Link href='/dashboard/post-blog' className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"><PenBox className="size-4" />Post Blog</Link>
-      <Link href='/dashboard/my-blogs' className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"><ContainerIcon className="size-4" />Your Blogs</Link>
-      <Link href='/dashboard/manage-blogs' className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"><PackagePlus className="size-4" />Manage Blogs</Link>
-      <Link href='/dashboard/manage-comments' className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"><MessageSquare className="size-4" />Manage Comments</Link>
-      <Link href='/dashboard/manage-users' className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"><UserCheck2 className="size-4" />Manage Users</Link>
-    </nav>
-  )
-}
+import DashboardNav from "@/components/DashboardComponents/DashboardNav"
 
 const UpgradeCard = () => {
   return (
@@ -70,7 +52,7 @@ const layout = ({ children }) => {
           </div>
           <div className="flex-1">
             {/* Side menus */}
-            <NavMenu />
+            <DashboardNav />
           </div>
           <UpgradeCard />
         </div>
@@ -85,7 +67,7 @@ const layout = ({ children }) => {
             </SheetTrigger>
             <SheetContent side='left' className='flex flex-col'>
               {/* side menus */}
-              <NavMenu />
+              <DashboardNav />
               <UpgradeCard />
             </SheetContent>
           </Sheet>
