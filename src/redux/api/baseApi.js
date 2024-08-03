@@ -20,8 +20,14 @@ export const baseApi = createApi({
         method: 'POST',
         body: formData
       })
+    }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `/blog?id=${id}`,
+        method: 'DELETE'
+      })
     })
   })
 })
 
-export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation} = baseApi
+export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation} = baseApi

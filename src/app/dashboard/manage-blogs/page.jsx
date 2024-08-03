@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { MoreHorizontal, Search } from "lucide-react"
+import { Check, Delete, Eye, EyeIcon, MoreHorizontal, Search, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -29,8 +29,26 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { useDeletePostMutation, useGetBlogsQuery } from "@/redux/api/baseApi"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import moment from "moment"
+import { toast } from "@/components/ui/use-toast"
+import { ToastAction } from "@/components/ui/toast"
 
-const UserTable = () => {
+const UserTable = ({ blog, pendingBlog, refetch }) => {
+  const [deletePost, { isLoading }] = useDeletePostMutation()
+
+  const handleDelete = async () => {
+    const response = await deletePost(blog?._id).unwrap()
+    console.log(response)
+    if (response.status) {
+      refetch()
+      toast({
+        title: "Success",
+        description: `${response?.message}`
+      })
+    }
+  }
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -38,48 +56,103 @@ const UserTable = () => {
           alt="User image"
           className="aspect-square rounded-md object-cover"
           height="30"
-          src="/placeholder.svg"
+          src={blog?.primaryImage}
           width="30"
         />
       </TableCell>
       <TableCell className="font-medium">
-        User Name
+        {blog?.title}
       </TableCell>
       <TableCell>
-        <Badge variant="outline">Admin</Badge>
+        {blog?.author?.name}
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        12 July, 10:42 AM
+        {moment(blog?.createdAt).format("Do MMM YYYY")}
       </TableCell>
-      <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Make Admin</DropdownMenuItem>
-            <DropdownMenuItem>Remove Admin</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <TableCell className='space-x-3'>
+        <Dialog>
+          <DialogTrigger>
+            <Button size='icon' variant='outline'><Eye /></Button>
+          </DialogTrigger>
+          <DialogContent className='max-w-[800px]'>
+            <div className="space-y-4">
+              <Image src={blog?.primaryImage} alt="Blog image" className="w-full h-80 object-cover" width={500} height={100} />
+              <p className="text-xl font-bold">{blog?.title}</p>
+              <p>{blog?.heading}</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+        {pendingBlog && (
+          <Dialog>
+            <DialogTrigger><Button className='bg-green-500 hover:bg-green-400' size='icon' variant='destructive'><Check /></Button></DialogTrigger>
+            <DialogContent>
+              <p className="text-2xl font-bold text-center">Are you sure?</p>
+              <p className="text-center">This blog will approved and show in publicly</p>
+              <Button className='bg-green-500 hover:bg-green-400'>Approve</Button>
+            </DialogContent>
+          </Dialog>
+        )}
+        <Dialog>
+          <DialogTrigger><Button size='icon' variant='destructive'><Trash2 /></Button></DialogTrigger>
+          <DialogContent>
+            <p className="text-2xl font-bold text-center">Are you sure?</p>
+            <p className="text-center">This blog will permanently deleted</p>
+            <DialogClose asChild>
+              <Button onClick={handleDelete} variant='destructive'>Delete</Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
       </TableCell>
     </TableRow>
   )
 }
 
 const ManageBlogs = () => {
+  const { data, isLoading, refetch } = useGetBlogsQuery()
   return (
-    <div>
+    <div className="space-y-6">
+      <Card>
+        <CardHeader className='flex-row justify-between items-center'>
+          <div className="">
+            <CardTitle className='mb-1'>Pending Blogs</CardTitle>
+            <CardDescription>
+              Pending blogs, Approve or delete it
+            </CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="hidden w-[100px] sm:table-cell">
+                  <span className="sr-only">Image</span>
+                </TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Username</TableHead>
+                <TableHead className="hidden md:table-cell">Created at</TableHead>
+                <TableHead>
+                  Actions
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.blogs?.map((blog) => <UserTable refetch={refetch} pendingBlog={true} key={blog?._id} blog={blog} />)}
+            </TableBody>
+          </Table>
+        </CardContent>
+        <CardFooter>
+          <div className="text-xs text-muted-foreground">
+            Showing <strong>1-10</strong> of <strong>32</strong> users
+          </div>
+        </CardFooter>
+      </Card>
       <Card>
         <CardHeader className='flex-row justify-between items-center'>
           <div className="">
             <CardTitle className='mb-1'>Blogs</CardTitle>
             <CardDescription>
-              Manage all Blogs, Approve or delete it
+              Manage all Blogs. If it doesn't follow our guideline, delete it
             </CardDescription>
           </div>
           <div className="">
@@ -98,8 +171,8 @@ const ManageBlogs = () => {
                 <TableHead className="hidden w-[100px] sm:table-cell">
                   <span className="sr-only">Image</span>
                 </TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Role</TableHead>
+                <TableHead>Title</TableHead>
+                <TableHead>Username</TableHead>
                 <TableHead className="hidden md:table-cell">Created at</TableHead>
                 <TableHead>
                   Actions
@@ -108,9 +181,7 @@ const ManageBlogs = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <UserTable />
-              <UserTable />
-              <UserTable />
+              {data?.blogs?.map((blog) => <UserTable key={blog?._id} blog={blog} />)}
             </TableBody>
           </Table>
         </CardContent>
