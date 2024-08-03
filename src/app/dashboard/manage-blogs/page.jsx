@@ -1,9 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { Check, Delete, Eye, EyeIcon, MoreHorizontal, Search, Trash2 } from "lucide-react"
+import { Check, Eye, Search, Trash2 } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -14,13 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   Table,
   TableBody,
   TableCell,
@@ -29,18 +21,29 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { useDeletePostMutation, useGetBlogsQuery } from "@/redux/api/baseApi"
+import { useApprovePostMutation, useDeletePostMutation, useGetBlogsQuery, usePendingBlogsQuery } from "@/redux/api/baseApi"
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import moment from "moment"
 import { toast } from "@/components/ui/use-toast"
-import { ToastAction } from "@/components/ui/toast"
 
-const UserTable = ({ blog, pendingBlog, refetch }) => {
+const UserTable = ({ blog, pendingBlog, refetch, pendingBlogsRefetch }) => {
   const [deletePost, { isLoading }] = useDeletePostMutation()
+  const [approvePost, { isLoading: approveLoading }] = useApprovePostMutation()
+
+  const handleApprove = async () => {
+    const response = await approvePost(blog?._id).unwrap()
+    pendingBlogsRefetch()
+    refetch()
+    if (response.status) {
+      toast({
+        title: 'Success',
+        description: `${response?.message}`
+      })
+    }
+  }
 
   const handleDelete = async () => {
     const response = await deletePost(blog?._id).unwrap()
-    console.log(response)
     if (response.status) {
       refetch()
       toast({
@@ -88,7 +91,9 @@ const UserTable = ({ blog, pendingBlog, refetch }) => {
             <DialogContent>
               <p className="text-2xl font-bold text-center">Are you sure?</p>
               <p className="text-center">This blog will approved and show in publicly</p>
-              <Button className='bg-green-500 hover:bg-green-400'>Approve</Button>
+              <DialogClose>
+                <Button onClick={() => handleApprove()} className='bg-green-500 hover:bg-green-400'>Approve</Button>
+              </DialogClose>
             </DialogContent>
           </Dialog>
         )}
@@ -107,46 +112,51 @@ const UserTable = ({ blog, pendingBlog, refetch }) => {
   )
 }
 
+
 const ManageBlogs = () => {
   const { data, isLoading, refetch } = useGetBlogsQuery()
+  const { data: pendingBlogs, isLoading: pendingBlogsLoading, refetch: pendingBlogsRefetch } = usePendingBlogsQuery()
   return (
     <div className="space-y-6">
-      <Card>
-        <CardHeader className='flex-row justify-between items-center'>
-          <div className="">
-            <CardTitle className='mb-1'>Pending Blogs</CardTitle>
-            <CardDescription>
-              Pending blogs, Approve or delete it
-            </CardDescription>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="hidden w-[100px] sm:table-cell">
-                  <span className="sr-only">Image</span>
-                </TableHead>
-                <TableHead>Title</TableHead>
-                <TableHead>Username</TableHead>
-                <TableHead className="hidden md:table-cell">Created at</TableHead>
-                <TableHead>
-                  Actions
-                  <span className="sr-only">Actions</span>
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {data?.blogs?.map((blog) => <UserTable refetch={refetch} pendingBlog={true} key={blog?._id} blog={blog} />)}
-            </TableBody>
-          </Table>
-        </CardContent>
-        <CardFooter>
-          <div className="text-xs text-muted-foreground">
-            Showing <strong>1-10</strong> of <strong>32</strong> users
-          </div>
-        </CardFooter>
-      </Card>
+      {(pendingBlogs?.count > 0) && (
+        <Card>
+          <CardHeader className='flex-row justify-between items-center'>
+            <div className="">
+              <CardTitle className='mb-1'>Pending Blogs</CardTitle>
+              <CardDescription>
+                Pending blogs, Approve or delete it
+              </CardDescription>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="hidden w-[100px] sm:table-cell">
+                    <span className="sr-only">Image</span>
+                  </TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Username</TableHead>
+                  <TableHead className="hidden md:table-cell">Created at</TableHead>
+                  <TableHead>
+                    Actions
+                    <span className="sr-only">Actions</span>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {pendingBlogs?.pendingBlogs?.map((blog) => <UserTable refetch={refetch} pendingBlogsRefetch={pendingBlogsRefetch} pendingBlog={true} key={blog?._id} blog={blog} />)}
+              </TableBody>
+            </Table>
+          </CardContent>
+          <CardFooter>
+            <div className="text-xs text-muted-foreground">
+              Showing <strong>1-10</strong> of <strong>32</strong> users
+            </div>
+          </CardFooter>
+        </Card>
+      )}
+
       <Card>
         <CardHeader className='flex-row justify-between items-center'>
           <div className="">

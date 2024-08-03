@@ -6,11 +6,11 @@ export const GET = async() => {
   try {
     await connect()
     const allBlogs = await Blog.find()
-    const approvedBlogs = allBlogs.filter((blog) => blog.approved == true)
-    const blogCount = approvedBlogs.length
-
-    return NextResponse.json({count : blogCount, blogs: approvedBlogs}, {status: 200})
+    const pendingBlogs = allBlogs.filter((blog) => blog.approved == false)
+    const count = pendingBlogs.length
+    return NextResponse.json({status: true, count, pendingBlogs}, {status: 200})
   } catch (error) {
+    console.log(error)
     return NextResponse.json({status: false, message: 'Something went wrong'}, {status: 500})
   }
 }

@@ -26,8 +26,17 @@ export const baseApi = createApi({
         url: `/blog?id=${id}`,
         method: 'DELETE'
       })
+    }),
+    approvePost: builder.mutation({
+      query: (id) => ({
+        url: `/blog?id=${id}`,
+        method: 'PATCH'
+      })
+    }),
+    pendingBlogs: builder.query({
+      query: () => '/blog/pending-blogs'
     })
   })
 })
 
-export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation} = baseApi
+export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation} = baseApi
