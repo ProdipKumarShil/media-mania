@@ -3,7 +3,6 @@ import { useUser } from '@/lib/useUser/useUser'
 import { ContainerIcon, Home, MessageSquare, PackagePlus, PenBox, PersonStanding, PersonStandingIcon, UserCheck2, UserCircle } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import { BsPerson } from 'react-icons/bs'
 import Skeleton from 'react-loading-skeleton'
 
 const DashboardNav = () => {

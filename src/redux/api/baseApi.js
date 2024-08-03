@@ -13,8 +13,15 @@ export const baseApi = createApi({
         method: 'POST',
         body: formData
       })
+    }),
+    postBlog: builder.mutation({
+      query: (formData) => ({
+        url: '/blog',
+        method: 'POST',
+        body: formData
+      })
     })
   })
 })
 
-export const {useGetBlogsQuery, usePostFormDataMutation} = baseApi
+export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation} = baseApi
