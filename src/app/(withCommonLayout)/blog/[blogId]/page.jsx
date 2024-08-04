@@ -7,7 +7,7 @@ import Image from "next/image"
 const SingleBlog = async({params}) => {
   const response = await fetch(`http://localhost:3000/api/blog?id=${params.blogId}`)
   const post = await response.json()
-  const {title, heading, primaryImage, secondaryImage, tags, author, text, timestamps } = post?.blog
+  const {title, heading, primaryImage, secondaryImage, tags, author, text, timestamps, _id } = post?.blog
   return (
     <div>
       <Image className="w-full h-[458px] object-cover mb-8" quality={100} width={2000} height={2000} src={primaryImage} alt="Single Blog Image" />
@@ -39,7 +39,7 @@ const SingleBlog = async({params}) => {
           <p className="mb-8 text-base font-bold text-[#667085]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, rerum. Ullam, iusto, eos dolor fuga molestias accusamus quibusdam sunt ad quisquam maxime vero reprehenderit quas ea quaerat. Excepturi quisquam ullam eaque tempora. Animi sapiente expedita repellat nemo consequatur rem. Voluptatibus, labore! Deserunt repellat optio vel laboriosam quaerat eum reiciendis, temporibus suscipit ex! Corporis, eius! Voluptate suscipit ut iusto repudiandae dolorum animi illo omnis nihil saepe cupiditate quos debitis, itaque possimus quisquam magnam deleniti commodi, minima accusantium? Et reiciendis sapiente dolorem. Voluptas quibusdam doloribus recusandae eveniet at architecto est sed rerum praesentium enim culpa libero odio perspiciatis aliquid omnis, dolor eos voluptate dolores! Cupiditate numquam accusantium quae error esse! At assumenda dolor tempore eligendi illo, dignissimos veritatis fugiat temporibus facere incidunt.</p> */}
           {/* comments */}
           <div className="w-full h-[200px] bg-zinc-300 my-8 flex justify-center items-center"><p className="text-2xl font-bold ">Ad Banner</p></div>
-          <BlogComment />
+          <BlogComment id={_id} />
         </div>
       </div>
     </div>
