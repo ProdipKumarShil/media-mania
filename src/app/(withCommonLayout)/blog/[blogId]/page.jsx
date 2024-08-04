@@ -1,4 +1,5 @@
 import SideBlogCard from "@/components/Shared/BlogCard/SideBlogCard"
+import BlogComment from "@/components/Shared/BlogComment/BlogComment"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
@@ -38,20 +39,7 @@ const SingleBlog = async({params}) => {
           <p className="mb-8 text-base font-bold text-[#667085]">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo, rerum. Ullam, iusto, eos dolor fuga molestias accusamus quibusdam sunt ad quisquam maxime vero reprehenderit quas ea quaerat. Excepturi quisquam ullam eaque tempora. Animi sapiente expedita repellat nemo consequatur rem. Voluptatibus, labore! Deserunt repellat optio vel laboriosam quaerat eum reiciendis, temporibus suscipit ex! Corporis, eius! Voluptate suscipit ut iusto repudiandae dolorum animi illo omnis nihil saepe cupiditate quos debitis, itaque possimus quisquam magnam deleniti commodi, minima accusantium? Et reiciendis sapiente dolorem. Voluptas quibusdam doloribus recusandae eveniet at architecto est sed rerum praesentium enim culpa libero odio perspiciatis aliquid omnis, dolor eos voluptate dolores! Cupiditate numquam accusantium quae error esse! At assumenda dolor tempore eligendi illo, dignissimos veritatis fugiat temporibus facere incidunt.</p> */}
           {/* comments */}
           <div className="w-full h-[200px] bg-zinc-300 my-8 flex justify-center items-center"><p className="text-2xl font-bold ">Ad Banner</p></div>
-          <div className="">
-            <h2 className='text-2xl font-semibold py-5'>Comments</h2>
-            <div className="mb-8">
-              <Textarea className='mb-4' placeholder='Write your comment' />
-              <Button>Post</Button>
-            </div>
-            {/* comments */}
-            <div className="">
-              <Comment />
-              <Comment />
-              <Comment />
-              <Comment />
-            </div>
-          </div>
+          <BlogComment />
         </div>
       </div>
     </div>
@@ -59,20 +47,3 @@ const SingleBlog = async({params}) => {
 }
 
 export default SingleBlog
-
-const Comment = () => {
-  return (
-    <div className="p-4 mb-6">
-      <div className="flex items-center gap-4 mb-4">
-        {/* image placeholder */}
-        <div className="size-14 rounded-full bg-slate-200 "></div>
-        <div className="space-y-1">
-          <p className="font-bold text-lg">John Duo</p>
-          <p className="text-sm font-semibold text-slate-500">02 July, 2023</p>
-        </div>
-      </div>
-      <p className="mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione unde, sint animi debitis quia atque possimus, nulla, incidunt architecto velit nostrum! Laboriosam animi id repellat molestias mollitia repudiandae? Deleniti, iusto.</p>
-      <hr />
-    </div>
-  )
-}

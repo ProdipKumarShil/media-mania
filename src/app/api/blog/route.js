@@ -6,10 +6,12 @@ export const POST = async (request) => {
   try {
     await connect()
     const data = await request.json()
+    console.log(data)
     const newPost = new Blog(data)
     await newPost.save()
     return NextResponse.json({status: true, message: 'Blog created successfully'}, {status: 201})
   } catch (error) {
+    console.log(error)
     return NextResponse.json({status: false, message: 'Failed to create blog'}, {status: 500})
   }
 }

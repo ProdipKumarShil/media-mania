@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { MoreHorizontal, Search } from "lucide-react"
+import { MoreHorizontal, Search, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,13 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   Table,
   TableBody,
   TableCell,
@@ -29,21 +22,25 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { useGetUsersQuery } from "@/redux/api/baseApi"
 
-const UserTable = () => {
+const UserTable = ({user}) => {
+  const handleDeleteUser = () => {
+    console.log('first')
+  }
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
         <Image
           alt="User image"
           className="aspect-square rounded-md object-cover"
-          height="30"
-          src="/placeholder.svg"
-          width="30"
+          height="40"
+          src={user?.image}
+          width="40"
         />
       </TableCell>
       <TableCell className="font-medium">
-        User Name
+        {user?.name}
       </TableCell>
       <TableCell>
         <Badge variant="outline">Admin</Badge>
@@ -52,26 +49,15 @@ const UserTable = () => {
         12 July, 10:42 AM
       </TableCell>
       <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Make Admin</DropdownMenuItem>
-            <DropdownMenuItem>Remove Admin</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Button onClick={() => handleDeleteUser()} size='icon' variant='destructive'><Trash2 /></Button>
       </TableCell>
     </TableRow>
   )
 }
 
 const ManageUsers = () => {
+  const {data, refetch} = useGetUsersQuery()
+  
   return (
     <div>
       <Card>
@@ -108,9 +94,7 @@ const ManageUsers = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <UserTable />
-              <UserTable />
-              <UserTable />
+              {data?.users?.map(user => <UserTable key={user?._id} user={user}/>)}
             </TableBody>
           </Table>
         </CardContent>
