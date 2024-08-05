@@ -58,8 +58,17 @@ export const baseApi = createApi({
         method: 'GET',
         params: {id, email}
       })
+    }),
+    getAllComments: builder.query({
+      query: () => '/comment'
+    }),
+    deleteComment: builder.mutation({
+      query: (id) => ({
+        url: `/comment?id=${id}`,
+        method: 'DELETE'
+      })
     })
   })
 })
 
-export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery} = baseApi
+export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation} = baseApi

@@ -1,9 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { MoreHorizontal, Search } from "lucide-react"
+import { Search, Trash2 } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -14,13 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   Table,
   TableBody,
   TableCell,
@@ -29,8 +21,30 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { useDeleteCommentMutation, useGetAllCommentsQuery } from "@/redux/api/baseApi"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import moment from "moment"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { toast } from "@/components/ui/use-toast"
 
-const UserTable = () => {
+const CommentData = ({ comment: singleComment, refetch }) => {
+  const [deleteComment, { isLoading }] = useDeleteCommentMutation()
+  const handleDeleteComment = async(id) => {
+    const response = await deleteComment(id).unwrap()
+    if (response?.status) {
+      refetch()
+      toast({
+        title: "Success",
+        description: `${response?.message}`
+      })
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Success",
+        description: `${response?.message}`
+      })
+    }
+  }
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -38,40 +52,46 @@ const UserTable = () => {
           alt="User image"
           className="aspect-square rounded-md object-cover"
           height="30"
-          src="/placeholder.svg"
+          src={singleComment?.userImg}
           width="30"
         />
       </TableCell>
       <TableCell className="font-medium">
-        User Name
+        {singleComment?.userName}
       </TableCell>
       <TableCell>
-        <Badge variant="outline">Admin</Badge>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <p className="cursor-pointer">{(singleComment?.comment).slice(0, 25)}...</p>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{singleComment?.comment}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        12 July, 10:42 AM
+        {moment(singleComment?.createdAt).format('DD MMMM, YYYY')}
       </TableCell>
       <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Make Admin</DropdownMenuItem>
-            <DropdownMenuItem>Remove Admin</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DialogTrigger><Button size='icon' variant='destructive'><Trash2 /></Button></DialogTrigger>
+          <DialogContent>
+            <p className="text-2xl font-bold text-center">Are you sure?</p>
+            <p className="text-center">This comment will permanently deleted</p>
+            <DialogClose asChild>
+              <Button onClick={() => handleDeleteComment(singleComment?._id)} size='' variant='destructive'>Delete</Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
       </TableCell>
     </TableRow>
   )
 }
 
 const ManageComments = () => {
+  const { data, refetch } = useGetAllCommentsQuery()
   return (
     <div>
       <Card>
@@ -96,11 +116,11 @@ const ManageComments = () => {
             <TableHeader>
               <TableRow>
                 <TableHead className="hidden w-[100px] sm:table-cell">
-                  <span className="sr-only">Image</span>
+                  <span className="sr-only">User Image</span>
                 </TableHead>
                 <TableHead>Name</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead className="hidden md:table-cell">Created at</TableHead>
+                <TableHead>Comment</TableHead>
+                <TableHead className="hidden md:table-cell">Commented at</TableHead>
                 <TableHead>
                   Actions
                   <span className="sr-only">Actions</span>
@@ -108,9 +128,9 @@ const ManageComments = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <UserTable />
-              <UserTable />
-              <UserTable />
+              {
+                data?.comments?.map((comment) => <CommentData key={comment?._id} comment={comment} refetch={refetch} />)
+              }
             </TableBody>
           </Table>
         </CardContent>

@@ -3,7 +3,6 @@ import { useUser } from '@/lib/useUser/useUser'
 import { ContainerIcon, Home, MessageSquare, PackagePlus, PenBox, PersonStanding, PersonStandingIcon, UserCheck2, UserCircle } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
-import Skeleton from 'react-loading-skeleton'
 
 const DashboardNav = () => {
   const { user, status } = useUser()
@@ -11,7 +10,6 @@ const DashboardNav = () => {
     return (
       <div className="">
         <p>loading</p>
-        <Skeleton />
       </div>
     )
   }

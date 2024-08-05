@@ -1,13 +1,11 @@
 import SideBlogCard from "@/components/Shared/BlogCard/SideBlogCard"
 import BlogComment from "@/components/Shared/BlogComment/BlogComment"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
 import Image from "next/image"
 
 const SingleBlog = async({params}) => {
   const response = await fetch(`http://localhost:3000/api/blog?id=${params.blogId}`)
   const post = await response.json()
-  const {title, heading, primaryImage, secondaryImage, tags, author, text, timestamps, _id } = post?.blog
+  const {title, heading, primaryImage, secondaryImage, text, _id } = post?.blog
   return (
     <div>
       <Image className="w-full h-[458px] object-cover mb-8" quality={100} width={2000} height={2000} src={primaryImage} alt="Single Blog Image" />
