@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .lg-screen {
-  @apply max-w-screen-xl mx-auto p-4
+  @apply max-w-screen-xl mx-auto p-4 
 }
 
 @layer base {

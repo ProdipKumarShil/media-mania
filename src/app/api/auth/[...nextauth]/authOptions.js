@@ -11,14 +11,12 @@ import bcrypt from 'bcrypt'
 
 const addUser = async(user) => {
   try {
-    console.log(user)
     await connect()
     const foundUser = await User.findOne({ email: user.email }).lean().exec()
     if(foundUser) {
       return foundUser
     } else {
       const response = await User.create(user)
-      console.log({user: response?._doc})
       return response?._doc
     }
   } catch(error) {
@@ -31,9 +29,9 @@ export const authOptions = {
     GithubProvider({
       profile(profile) {
         let userRole = 'github_user'
-        if (profile?.email == 'prodipkrishna01@gmail.com') {
-          userRole = 'admin'
-        }
+        // if (profile?.email == 'prodipkrishna01@gmail.com') {
+        //   userRole = 'admin'
+        // }
         const authProfile = {
           id: profile?.id,
           name: profile?.name,

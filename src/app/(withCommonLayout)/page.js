@@ -8,7 +8,7 @@ const page = () => {
     return (
       <div className='lg-screen'>
        
-      {/* <Banner/> */}
+      <Banner/>
       <RecentBlogs/>
       <AllBlogs/>
 
