@@ -11,7 +11,7 @@ const BlogsPage = () => {
   return (
     <div>
       <p className='text-3xl font-bold text-center p-5'>Hello from blogs page</p>
-      <div className='lg-screen grid grid-cols-3 gap-4'>
+      <div className='lg-screen grid grid-cols-3 gap-x-8 gap-y-12'>
       {isLoading ? arr.map((val, index) => <BlogCardSkeleton key={index}/>) : data?.blogs?.map(blog => <BlogCard blog={blog} key={blog._id} />)}
       </div>
     </div>

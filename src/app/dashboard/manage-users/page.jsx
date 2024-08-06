@@ -22,11 +22,21 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { useGetUsersQuery } from "@/redux/api/baseApi"
+import { useDeleteUserMutation, useGetUsersQuery } from "@/redux/api/baseApi"
+import { toast } from "@/components/ui/use-toast"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
-const UserTable = ({user}) => {
-  const handleDeleteUser = () => {
-    console.log('first')
+const UserTable = ({ user, refetch }) => {
+  const [deleteUser, { isLoading }] = useDeleteUserMutation()
+  const handleDeleteUser = async () => {
+    const response = await deleteUser(user?._id).unwrap()
+    if (response?.status) {
+      refetch()
+      toast({
+        title: "Success",
+        description: `${response?.message}`
+      })
+    }
   }
   return (
     <TableRow>
@@ -49,15 +59,25 @@ const UserTable = ({user}) => {
         12 July, 10:42 AM
       </TableCell>
       <TableCell>
-        <Button onClick={() => handleDeleteUser()} size='icon' variant='destructive'><Trash2 /></Button>
+        <Dialog>
+          <DialogTrigger><Button size='icon' variant='destructive'><Trash2 /></Button></DialogTrigger>
+          <DialogContent>
+            <p className="text-2xl font-bold text-center">Are you sure?</p>
+            <p className="text-center">This user will permanently deleted</p>
+            <DialogClose asChild>
+              <Button onClick={handleDeleteUser} variant='destructive'>Delete</Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
+        {/* <Button onClick={() => handleDeleteUser()} size='icon' variant='destructive'><Trash2 /></Button> */}
       </TableCell>
     </TableRow>
   )
 }
 
 const ManageUsers = () => {
-  const {data, refetch} = useGetUsersQuery()
-  
+  const { data, refetch } = useGetUsersQuery()
+
   return (
     <div>
       <Card>
@@ -94,7 +114,7 @@ const ManageUsers = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.users?.map(user => <UserTable key={user?._id} user={user}/>)}
+              {data?.users?.map(user => <UserTable key={user?._id} refetch={refetch} user={user} />)}
             </TableBody>
           </Table>
         </CardContent>

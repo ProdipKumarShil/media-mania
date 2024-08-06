@@ -5,6 +5,27 @@ import GoogleProvider from 'next-auth/providers/google'
 import CredentialProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcrypt'
 
+// function addUser (){
+
+// }
+
+const addUser = async(user) => {
+  try {
+    console.log(user)
+    await connect()
+    const foundUser = await User.findOne({ email: user.email }).lean().exec()
+    if(foundUser) {
+      return foundUser
+    } else {
+      const response = await User.create(user)
+      console.log({user: response?._doc})
+      return response?._doc
+    }
+  } catch(error) {
+    console.log(error)
+  }
+}
+
 export const authOptions = {
   providers: [
     GithubProvider({
@@ -13,13 +34,14 @@ export const authOptions = {
         if (profile?.email == 'prodipkrishna01@gmail.com') {
           userRole = 'admin'
         }
-        return {
+        const authProfile = {
           id: profile?.id,
           name: profile?.name,
           email: profile?.email,
           image: profile?.avatar_url,
           role: userRole
         }
+        return addUser(authProfile)
       },
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET
@@ -28,9 +50,10 @@ export const authOptions = {
       profile(profile) {
 
         let userRole = 'google_user'
-        if (profile?.email == 'prodipkrishna01@gmail.com') {
-          userRole = 'admin'
-        }
+
+        // if (profile?.email == 'prodipkrishna01@gmail.com') {
+        //   userRole = 'admin'
+        // }
 
         const authProfile = {
           id: profile?.sub,
@@ -39,7 +62,7 @@ export const authOptions = {
           image: profile?.picture,
           role: userRole
         }
-        return authProfile
+        return addUser(authProfile)
       },
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET
@@ -58,16 +81,16 @@ export const authOptions = {
           placeholder: 'Your Password'
         }
       },
-      async authorize(credentials){
+      async authorize(credentials) {
         try {
           await connect()
-          const foundUser = await User.findOne({email: credentials.email}).lean().exec()
-          if(foundUser){
+          const foundUser = await User.findOne({ email: credentials.email }).lean().exec()
+          if (foundUser) {
             const match = await bcrypt.compare(credentials.password, foundUser.password)
 
-            if(match){
+            if (match) {
               delete foundUser.password
-              if(foundUser?.email == 'admin@email.com'){
+              if (foundUser?.email == 'admin@email.com') {
                 foundUser['role'] = 'admin'
               } else {
                 foundUser['role'] = 'unverified email'
@@ -80,8 +103,8 @@ export const authOptions = {
         }
       }
     },
-    
-  )
+
+    )
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
