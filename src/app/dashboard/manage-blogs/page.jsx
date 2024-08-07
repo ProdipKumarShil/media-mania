@@ -162,7 +162,7 @@ const ManageBlogs = () => {
           <div className="">
             <CardTitle className='mb-1'>Blogs</CardTitle>
             <CardDescription>
-              Manage all Blogs. If it doesn't follow our guideline, delete it
+              Manage all Blogs. If it doesn&apos;t follow our guideline, delete it
             </CardDescription>
           </div>
           <div className="">

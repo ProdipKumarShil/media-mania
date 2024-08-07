@@ -4,13 +4,12 @@ import Link from 'next/link';
 import ModeToggle from '../DarkModeButton/ModeToggle';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const Header = async () => {
   const session = await getServerSession(authOptions)
   return (
-    <div className='flex justify-between items-center bg-white py-[30px] px-2'>
+    <div className='flex justify-between items-center bg-white py-[30px] px-6'>
       <Link href="/">
         <Image src={Logo} height={200} width={200} alt='mediaMania' />
       </Link>
@@ -19,11 +18,13 @@ const Header = async () => {
         <div className='flex gap-2 items-center  '>
           <ul className='flex gap-2  text-xl text-black'>
             <li><Link href='/' className=''>Home</Link></li>
-            <li><Link href='blogs' className='ps-8'>Project</Link></li>
             <li><Link href='blogs' className='p-8'>Blogs</Link></li>
             <li><Link href='about' className='pe-8'>About</Link></li>
+            {!session && <li><Link href='signup' className='pe-8'>SignUp</Link></li>}
           </ul>
 
+          {/* {!session?.user &&} */}
+          
           {session?.user && <>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -34,13 +35,12 @@ const Header = async () => {
               <DropdownMenuContent>
                 <DropdownMenuLabel><Link href='/dashboard'>Dashboard</Link></DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuLabel><Link href='/#'>Theme</Link></DropdownMenuLabel>
+                <DropdownMenuLabel className='flex items-center justify-between'><p>Theme</p> <ModeToggle /></DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel><Link href='/api/auth/signout?callbackUrl=/'>Logout</Link></DropdownMenuLabel>
               </DropdownMenuContent>
             </DropdownMenu>
           </>}
-          <ModeToggle />
         </div>
       </div>
     </div>

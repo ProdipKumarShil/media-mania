@@ -9,9 +9,10 @@ const BlogsPage = () => {
   const {isLoading, data} = useGetBlogsQuery('')
   const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9]
   return (
-    <div>
-      <p className='text-3xl font-bold text-center p-5'>Hello from blogs page</p>
-      <div className='lg-screen grid grid-cols-3 gap-x-8 gap-y-12'>
+    <div className='lg-screen'>
+      <p className='text-3xl font-bold  py-5'>All Blogs</p>
+      <hr className='mb-5' />
+      <div className=' grid grid-cols-3 gap-x-8 gap-y-12'>
       {isLoading ? arr.map((val, index) => <BlogCardSkeleton key={index}/>) : data?.blogs?.map(blog => <BlogCard blog={blog} key={blog._id} />)}
       </div>
     </div>
