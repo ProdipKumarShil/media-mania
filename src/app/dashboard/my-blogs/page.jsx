@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { MoreHorizontal, Search } from "lucide-react"
+import { Eye, MoreHorizontal, Search, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -29,8 +29,24 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { useBlogsByEmailQuery, useDeletePostMutation } from "@/redux/api/baseApi"
+import { useUser } from "@/lib/useUser/useUser"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import moment from "moment"
 
-const UserTable = () => {
+export const UserTable = ({ blog, refetch }) => {
+  const [deletePost, { isLoading }] = useDeletePostMutation()
+
+  const handleDelete = async () => {
+    const response = await deletePost(blog?._id).unwrap()
+    if (response.status) {
+      refetch()
+      toast({
+        title: "Success",
+        description: `${response?.message}`
+      })
+    }
+  }
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
@@ -38,40 +54,51 @@ const UserTable = () => {
           alt="User image"
           className="aspect-square rounded-md object-cover"
           height="30"
-          src="/placeholder.svg"
+          src={blog?.primaryImage}
           width="30"
         />
       </TableCell>
       <TableCell className="font-medium">
-        User Name
+        {blog?.title}
       </TableCell>
       <TableCell>
-        <Badge variant="outline">Admin</Badge>
+        {blog?.author?.name}
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        12 July, 10:42 AM
+        {moment(blog?.createdAt).format("Do MMM YYYY")}
       </TableCell>
-      <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Make Admin</DropdownMenuItem>
-            <DropdownMenuItem>Remove Admin</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <TableCell className='space-x-3'>
+        <Dialog>
+          <DialogTrigger>
+            <Button size='icon' variant='outline'><Eye /></Button>
+          </DialogTrigger>
+          <DialogContent className='max-w-[800px]'>
+            <div className="space-y-4">
+              <Image src={blog?.primaryImage} alt="Blog image" className="w-full h-80 object-cover" width={500} height={100} />
+              <p className="text-xl font-bold">{blog?.title}</p>
+              <p>{blog?.heading}</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+        <Dialog>
+          <DialogTrigger><Button size='icon' variant='destructive'><Trash2 /></Button></DialogTrigger>
+          <DialogContent>
+            <p className="text-2xl font-bold text-center">Are you sure?</p>
+            <p className="text-center">This blog will permanently deleted</p>
+            <DialogClose asChild>
+              <Button onClick={handleDelete} variant='destructive'>Delete</Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
       </TableCell>
     </TableRow>
   )
 }
 
 const MyBlogs = () => {
+  const user = useUser()
+  const email = user?.user?.email
+  const {data} = useBlogsByEmailQuery(email)
   return (
     <div>
       <Card>
@@ -108,9 +135,7 @@ const MyBlogs = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <UserTable />
-              <UserTable />
-              <UserTable />
+              {data?.blogs?.map(blog => <UserTable blog={blog} key={blog?._id} />)}
             </TableBody>
           </Table>
         </CardContent>

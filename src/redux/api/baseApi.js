@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:3000/api'}),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
   endpoints: (builder) => ({
     getBlogs: builder.query({
       query: () => '/blog/all-blogs'
@@ -53,10 +53,10 @@ export const baseApi = createApi({
       })
     }),
     getComment: builder.query({
-      query: ({id, email}) => ({
+      query: ({ id, email }) => ({
         url: `/comment/commentsByBlog?id=${id}&email=${email}`,
         method: 'GET',
-        params: {id, email}
+        params: { id, email }
       })
     }),
     getAllComments: builder.query({
@@ -70,8 +70,14 @@ export const baseApi = createApi({
     }),
     recentBlogs: builder.query({
       query: () => '/blog/latest-blog'
+    }),
+    blogsByEmail: builder.query({
+      query: (email) => ({
+        url: `/blog/blogs?email=${email}`,
+        method: 'GET'
+      })
     })
   })
 })
 
-export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery} = baseApi
+export const { useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery, useBlogsByEmailQuery } = baseApi
