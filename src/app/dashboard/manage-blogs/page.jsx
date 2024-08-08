@@ -21,10 +21,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
-import { useApprovePostMutation, useDeletePostMutation, useGetBlogsQuery, usePendingBlogsQuery } from "@/redux/api/baseApi"
+import { useApprovePostMutation, useDeletePostMutation, useGetBlogsQuery, usePendingBlogsQuery, useSearchBlogsQuery } from "@/redux/api/baseApi"
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import moment from "moment"
 import { toast } from "@/components/ui/use-toast"
+import { useState } from "react"
 
 const UserTable = ({ blog, pendingBlog, refetch, pendingBlogsRefetch }) => {
   const [deletePost, { isLoading }] = useDeletePostMutation()
@@ -114,8 +115,15 @@ const UserTable = ({ blog, pendingBlog, refetch, pendingBlogsRefetch }) => {
 
 
 const ManageBlogs = () => {
-  const { data, isLoading, refetch } = useGetBlogsQuery()
   const { data: pendingBlogs, isLoading: pendingBlogsLoading, refetch: pendingBlogsRefetch } = usePendingBlogsQuery()
+
+  const [searchItem, setSearchItem] = useState('')
+  console.log(searchItem)
+  const {data, refetch, isLoading} = useSearchBlogsQuery(searchItem)
+  const handleInput = (e) => {
+    setSearchItem(e.target.value)
+  }
+  
   return (
     <div className="space-y-6">
       {(pendingBlogs?.count > 0) && (
@@ -166,12 +174,12 @@ const ManageBlogs = () => {
             </CardDescription>
           </div>
           <div className="">
-            <form >
+            {/* <form > */}
               <div className="relative">
                 <Search className="absolute left-2.5 top-[12px] size-4 text-muted-foreground" />
-                <Input type='search' placeholder='Search blogs' className='w-full appearance-none bg-background pl-8 shadow-none ' />
+                <Input value={searchItem} onChange={handleInput} type='search' placeholder='Search blogs' className='w-full appearance-none bg-background pl-8 shadow-none ' />
               </div>
-            </form>
+            {/* </form> */}
           </div>
         </CardHeader>
         <CardContent>

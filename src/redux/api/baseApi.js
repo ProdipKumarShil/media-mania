@@ -76,8 +76,15 @@ export const baseApi = createApi({
         url: `/blog/blogs?email=${email}`,
         method: 'GET'
       })
+    }),
+    searchBlogs: builder.query({
+      query: (query) => ({
+        url: '/blog/search',
+        method: 'GET',
+        params: {q: query}
+      })
     })
   })
 })
 
-export const { useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery, useBlogsByEmailQuery } = baseApi
+export const { useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery, useBlogsByEmailQuery, useSearchBlogsQuery } = baseApi

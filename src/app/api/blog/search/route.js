@@ -7,9 +7,16 @@ export const GET = async (request) => {
   const { searchParams } = new URL(request.url)
   const query = searchParams.get('q')
 
-  const blogs = await Blog.find({
-    title: { $regex: query, $options: 'i'}
-  })
+  let blogs
+  if (!query) {
+    blogs = await Blog.find()
+  } else {
+    blogs = await Blog.find({
+      title: { $regex: query, $options: 'i' }
+    })
+  }
 
-  return NextResponse.json(blogs)
+  const count = blogs.length
+
+  return NextResponse.json({status: true, count, blogs})
 }
