@@ -119,11 +119,11 @@ const ManageBlogs = () => {
 
   const [searchItem, setSearchItem] = useState('')
   console.log(searchItem)
-  const {data, refetch, isLoading} = useSearchBlogsQuery(searchItem)
+  const { data, refetch, isLoading } = useSearchBlogsQuery(searchItem)
   const handleInput = (e) => {
     setSearchItem(e.target.value)
   }
-  
+
   return (
     <div className="space-y-6">
       {(pendingBlogs?.count > 0) && (
@@ -175,15 +175,16 @@ const ManageBlogs = () => {
           </div>
           <div className="">
             {/* <form > */}
-              <div className="relative">
-                <Search className="absolute left-2.5 top-[12px] size-4 text-muted-foreground" />
-                <Input value={searchItem} onChange={handleInput} type='search' placeholder='Search blogs' className='w-full appearance-none bg-background pl-8 shadow-none ' />
-              </div>
+            <div className="relative">
+              <Search className="absolute left-2.5 top-[12px] size-4 text-muted-foreground" />
+              <Input value={searchItem} onChange={handleInput} type='search' placeholder='Search blogs' className='w-full appearance-none bg-background pl-8 shadow-none ' />
+            </div>
             {/* </form> */}
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
+          {data?.count == 0 && <p className="text-2xl font-bold text-center py-20">'{`${searchItem}`}' Not Found</p>}
+          {!data?.count == 0 && <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="hidden w-[100px] sm:table-cell">
@@ -201,7 +202,7 @@ const ManageBlogs = () => {
             <TableBody>
               {data?.blogs?.map((blog) => <UserTable refetch={refetch} key={blog?._id} blog={blog} />)}
             </TableBody>
-          </Table>
+          </Table>}
         </CardContent>
         <CardFooter>
           <div className="text-xs text-muted-foreground">
