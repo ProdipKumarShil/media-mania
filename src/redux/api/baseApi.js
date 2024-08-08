@@ -67,8 +67,11 @@ export const baseApi = createApi({
         url: `/comment?id=${id}`,
         method: 'DELETE'
       })
+    }),
+    recentBlogs: builder.query({
+      query: () => '/blog/latest-blog'
     })
   })
 })
 
-export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation} = baseApi
+export const {useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery} = baseApi

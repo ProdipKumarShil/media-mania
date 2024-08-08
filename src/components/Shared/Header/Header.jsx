@@ -32,7 +32,7 @@ const Header = async () => {
                   <Image className="size-10 rounded-full" alt='user' width={100} height={100} src={session?.user?.image} />
                 </div>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent align='end'>
                 <DropdownMenuLabel><Link href='/dashboard'>Dashboard</Link></DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuLabel className='flex items-center justify-between'><p>Theme</p> <ModeToggle /></DropdownMenuLabel>

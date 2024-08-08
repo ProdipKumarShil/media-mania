@@ -191,7 +191,7 @@ const ManageBlogs = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data?.blogs?.map((blog) => <UserTable key={blog?._id} blog={blog} />)}
+              {data?.blogs?.map((blog) => <UserTable refetch={refetch} key={blog?._id} blog={blog} />)}
             </TableBody>
           </Table>
         </CardContent>
