@@ -4,12 +4,14 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
+import { ToastAction } from '@/components/ui/toast'
 import { toast } from '@/components/ui/use-toast'
 import { useUser } from '@/lib/useUser/useUser'
 import { useCommentMutation, useGetCommentQuery } from '@/redux/api/baseApi'
 import { zodResolver } from '@hookform/resolvers/zod'
 import moment from 'moment'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -24,6 +26,7 @@ const commentSchema = z.object({
 
 const BlogComment = ({ id }) => {
   const user = useUser()?.user
+  console.log(user)
   const [comment, { isLoading }] = useCommentMutation()
   const { data, isLoading: commentLoading, refetch } = useGetCommentQuery({ id: id, email: user?.email })
 
@@ -39,6 +42,15 @@ const BlogComment = ({ id }) => {
   })
 
   const onSubmit = async (value) => {
+    if(!user){
+      toast({
+        variant: 'destructive',
+        title: 'Failed',
+        description: 'You should login before comment!',
+        action: <ToastAction altText="Try again"><Link href='/signup'>Sign Up</Link></ToastAction>,
+      })
+      return
+    }
     const commentData = { blogId: id, userName: user?.name, userEmail: user?.email, userImg: user?.image, comment: value?.comment }
     const response = await comment(commentData).unwrap()
     form.reset()

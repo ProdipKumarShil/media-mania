@@ -1,4 +1,4 @@
-import SideBlogCard from "@/components/Shared/BlogCard/SideBlogCard"
+import RecentlyPostedBlogs from "@/components/Shared/BlogCard/RecentlyPostedBlogs"
 import BlogComment from "@/components/Shared/BlogComment/BlogComment"
 import Image from "next/image"
 
@@ -18,12 +18,7 @@ const SingleBlog = async({params}) => {
             <p className="text-xl font-bold">Ad Block</p>
           </div>
           <p className="text-lg font-bold mb-4">Recently Posted</p>
-          <div className="flex flex-col gap-8">
-            <SideBlogCard />
-            <SideBlogCard />
-            <SideBlogCard />
-            <SideBlogCard />
-          </div>
+          <RecentlyPostedBlogs />
         </div>
         <div className=" order-1 md:order-2 w-full md:col-span-8 lg:col-span-9">
           <p className="text-[#6941C6] text-sm font-semibold mb-8">Sunday , 1 Jan 2023</p>
