@@ -57,31 +57,24 @@ export const GET = async () => {
       }
     })
 
-    // const categoryData = await Blog.aggregate([
-    //   {$unwind: '$tags'},
-    //   {
-    //     $group: {
-    //       _id: '$tags',
-    //       visitors: {$sum: 1}
-    //     }
-    //   },
-    //   {
-    //     $project: {
-    //       _id: 0,
-    //       category: {$toUpper: '$_id'},
-    //       visitors: 1,
-    //       fill: {
-    //         $switch: {
-    //           branches: [
-    //             {case: {$eq: ['$_id', 'gaming']}}
-    //           ]
-    //         }
-    //       }
-    //     }
-    //   }
-    // ])
+    const categoryData = await Blog.aggregate([
+      { $unwind: "$tags" }, // Deconstruct the tags array
+      {
+        $group: {
+          _id: "$tags",
+          tagCount: { $sum: 1 } // Count the number of blogs per category
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          category: { $toUpper: "$_id" }, // Convert category to uppercase for display purposes
+          tagCount: 1
+        }
+      }
+    ]);
 
-    return NextResponse.json({ status: true, data })
+    return NextResponse.json({ status: true, data, categoryData })
   } catch (error) {
     console.log(error)
     return NextResponse.json({ status: false, message: 'Something went wrong' }, { status: 500 })
