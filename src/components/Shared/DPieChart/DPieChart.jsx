@@ -18,32 +18,29 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { browser: "gaming", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "movies", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "fun", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "freelancing", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
-]
+// const chartData = [
+//   { category: "Gaming", visitors: 275, fill: "var(--color-chrome)" },
+//   { category: "Movies", visitors: 200, fill: "var(--color-safari)" },
+//   { category: "Fun", visitors: 287, fill: "var(--color-firefox)" },
+//   { category: "Freelancing", visitors: 173, fill: "var(--color-edge)" },
+//   { category: "Other", visitors: 190, fill: "var(--color-other)" },
+// ]
 // #f9ba32,#426e86,#f8f1e5,#2f3131,#f0810f
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
+  gaming: {
+    label: "Gaming",
     color: "#f9ba32",
   },
-  safari: {
-    label: "Safari",
+  movies: {
+    label: "Movies",
     color: "#426e86",
   },
-  firefox: {
-    label: "Firefox",
+  fun: {
+    label: "Fun",
     color: "#f8f1e5",
   },
-  edge: {
-    label: "Edge",
+  freelancing: {
+    label: "Freelancing",
     color: "#2f3131",
   },
   other: {
@@ -52,11 +49,15 @@ const chartConfig = {
   },
 }
 
-const DPieChart = () => {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
-  }, [])
+const DPieChart = ({pieData}) => {
+  console.log(pieData)
+  const totalTags = pieData?.reduce((acc, item) => acc + item.tagCount, 0)
+  const totalVisitors = 500
 
+  const coloredData = pieData?.map(item => ({
+    ...item,
+    fill: chartConfig[item.category.toLowerCase()]?.color || '#ccc'
+  }))
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
@@ -74,9 +75,9 @@ const DPieChart = () => {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              data={coloredData}
+              dataKey="tagCount"
+              nameKey="category"
               innerRadius={60}
               strokeWidth={5}
             >
@@ -95,14 +96,14 @@ const DPieChart = () => {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalTags.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Posts
+                          Tags
                         </tspan>
                       </text>
                     )

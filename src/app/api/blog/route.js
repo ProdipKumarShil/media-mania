@@ -6,10 +6,12 @@ export const POST = async (request) => {
   try {
     await connect()
     const data = await request.json()
+    console.log(data)
     const newPost = new Blog(data)
     await newPost.save()
     return NextResponse.json({status: true, message: 'Blog created successfully'}, {status: 201})
   } catch (error) {
+    console.log(error)
     return NextResponse.json({status: false, message: 'Failed to create blog'}, {status: 500})
   }
 }
@@ -36,5 +38,18 @@ export const DELETE = async(request) => {
     return NextResponse.json({status: true, deletedBlog, message: 'Blog deleted successfully!'}, {status: 200})
   } catch (error) {
     return NextResponse.json({status: false, message: 'Failed to delete blog!'}, {status: 500})
+  }
+}
+
+export const PATCH = async(request) => {
+  try {
+    const id = request.nextUrl.searchParams.get('id')
+    await connect()
+    const approvedBlog = await Blog.findByIdAndUpdate(id, {approved: true})
+    console.log(approvedBlog)
+    return NextResponse.json({status: true, message: 'Blog approved'}, {status: 200})
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({status: false, message: 'Something went wrong'}, {status: 500})
   }
 }

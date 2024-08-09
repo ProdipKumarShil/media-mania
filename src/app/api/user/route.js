@@ -26,6 +26,26 @@ export async function POST(req) {
   }
 }
 
-export const GET = () => {
-  return NextResponse.json({status: 'user route'})
+export const GET = async() => {
+  try {
+    await connect()
+    const users = await User.find()
+    return NextResponse.json({status: true, users})
+  } catch (error) {
+    return NextResponse.json({status: 'user route'})
+  }
+}
+
+export const DELETE = async(request) => {
+  try {
+    await connect()
+    const id = request.nextUrl.searchParams.get('id')
+    const deletedUser = await User.findByIdAndDelete(id)
+    if(deletedUser){
+      return NextResponse.json({status: true, message: 'User deleted!'})
+    }
+    return NextResponse.json({status: false, message: 'Failed to delete user'})
+  } catch (error) {
+    return NextResponse.json({status: false, message: 'Something went wrong!'}, {status: 500})
+  }
 }

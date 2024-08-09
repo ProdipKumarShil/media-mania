@@ -23,6 +23,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import DashboardNav from "@/components/DashboardComponents/DashboardNav"
+import ModeToggle from "@/components/Shared/DarkModeButton/ModeToggle"
+import { getServerSession } from "next-auth"
+import { authOptions } from "../api/auth/[...nextauth]/authOptions"
+import Image from "next/image"
 
 const UpgradeCard = () => {
   return (
@@ -40,7 +44,9 @@ const UpgradeCard = () => {
   )
 }
 
-const layout = ({ children }) => {
+const layout = async({ children }) => {
+  const session = await getServerSession(authOptions)
+  console.log(session)
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -72,24 +78,20 @@ const layout = ({ children }) => {
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-            <form >
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 size-4 text-muted-foreground" />
-                <Input type='search' placeholder='Search blogs' className='w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3' />
-              </div>
-            </form>
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               {/* user image here */}
-              <Button variant='secondary' size='icon' className='rounded-full'><CircleUser className="size-5" /> <span className="sr-only">Toggle User Menu</span> </Button>
+              <Button variant='secondary' size='icon' className='rounded-full'><Image className="size-9 rounded-full" src={session?.user?.image} alt='userImg' width={100} height={100}/></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align='end'>
-              <DropdownMenuLabel>Home</DropdownMenuLabel>
+              <DropdownMenuLabel><Link href='/'>Home</Link></DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Dashboard</DropdownMenuLabel>
+              <DropdownMenuLabel><Link href='/blogs'>Blogs</Link></DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel>Logout</DropdownMenuLabel>
+              <DropdownMenuLabel className='flex items-center justify-between'><p>Theme</p> <ModeToggle /></DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel><Link href='http://localhost:3000/api/auth/signout?callbackUrl=/'>Logout</Link></DropdownMenuLabel>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

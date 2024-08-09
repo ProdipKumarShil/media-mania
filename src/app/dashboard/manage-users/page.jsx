@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { MoreHorizontal, Search } from "lucide-react"
+import { Search, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -14,13 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
   Table,
   TableBody,
   TableCell,
@@ -29,49 +22,63 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
+import { useDeleteUserMutation, useGetUsersQuery } from "@/redux/api/baseApi"
+import { toast } from "@/components/ui/use-toast"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import moment from "moment"
 
-const UserTable = () => {
+const UserTable = ({ user, refetch }) => {
+  const [deleteUser, { isLoading }] = useDeleteUserMutation()
+  const handleDeleteUser = async () => {
+    const response = await deleteUser(user?._id).unwrap()
+    if (response?.status) {
+      refetch()
+      toast({
+        title: "Success",
+        description: `${response?.message}`
+      })
+    }
+  }
   return (
     <TableRow>
       <TableCell className="hidden sm:table-cell">
         <Image
           alt="User image"
           className="aspect-square rounded-md object-cover"
-          height="30"
-          src="/placeholder.svg"
-          width="30"
+          height="50"
+          src={user?.image}
+          width="50"
         />
       </TableCell>
       <TableCell className="font-medium">
-        User Name
+        {user?.name}
       </TableCell>
       <TableCell>
-        <Badge variant="outline">Admin</Badge>
+        <Badge variant="outline">{user?.role == 'admin' ? <div className="size-2 rounded-full bg-red-500 mr-3"></div> : <div className="size-2 rounded-full bg-green-500 mr-3"></div>} {user?.role} </Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        12 July, 10:42 AM
+        {moment(user?.createdAt).format('LT, DD MMM YYYY')}
       </TableCell>
       <TableCell>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button aria-haspopup="true" size="icon" variant="ghost">
-              <MoreHorizontal className="h-4 w-4" />
-              <span className="sr-only">Toggle menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem>Make Admin</DropdownMenuItem>
-            <DropdownMenuItem>Remove Admin</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+          <DialogTrigger><Button size='icon' variant='destructive'><Trash2 /></Button></DialogTrigger>
+          <DialogContent>
+            <p className="text-2xl font-bold text-center">Are you sure?</p>
+            <p className="text-center">This user will permanently deleted</p>
+            <DialogClose asChild>
+              <Button onClick={handleDeleteUser} variant='destructive'>Delete</Button>
+            </DialogClose>
+          </DialogContent>
+        </Dialog>
+        {/* <Button onClick={() => handleDeleteUser()} size='icon' variant='destructive'><Trash2 /></Button> */}
       </TableCell>
     </TableRow>
   )
 }
 
 const ManageUsers = () => {
+  const { data, refetch } = useGetUsersQuery()
+
   return (
     <div>
       <Card>
@@ -108,9 +115,7 @@ const ManageUsers = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              <UserTable />
-              <UserTable />
-              <UserTable />
+              {data?.users?.map(user => <UserTable key={user?._id} refetch={refetch} user={user} />)}
             </TableBody>
           </Table>
         </CardContent>

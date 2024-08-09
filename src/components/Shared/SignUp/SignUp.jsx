@@ -4,6 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { useRouter } from 'next/navigation'
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 import {
   Form,
@@ -18,6 +20,7 @@ import { Button } from '@/components/ui/button'
 import { usePostFormDataMutation } from '@/redux/api/baseApi'
 import { Loader2 } from 'lucide-react'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
 
 const passwordValidation = new RegExp(
   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/
@@ -32,7 +35,7 @@ const formSchema = z.object({
 })
 
 const LoginPage = () => {
-  const [postFormData, {isLoading, isSuccess, isError}] = usePostFormDataMutation()
+  const [postFormData, { isLoading, isSuccess, isError }] = usePostFormDataMutation()
   const router = useRouter()
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -44,11 +47,11 @@ const LoginPage = () => {
     }
   })
 
-  const onSubmit = async(value) => {
+  const onSubmit = async (value) => {
     try {
       const response = await postFormData(value).unwrap()
 
-      if(response?.status){
+      if (response?.status) {
         router.push('/dashboard')
       }
     } catch (error) {
@@ -58,7 +61,7 @@ const LoginPage = () => {
 
   return (
     <Form  {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-3'>
         <FormField control={form.control} name="name" render={({ field }) => (
           <FormItem>
             <FormLabel>Username</FormLabel>
@@ -98,6 +101,17 @@ const LoginPage = () => {
         <p className='text-xs'>Already have account <Link className=' underline font-semibold' href='/api/auth/signin'>Sign in</Link></p>
         {isLoading ? <Button disabled className="w-full" type="submit"><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating your account</Button> : <Button className="w-full" type="submit">Create account</Button>}
       </form>
+      <div>
+        <p className='text-sm text-center mt-3'>Or, Continue with </p>
+        <div className="flex gap-3 pt-4">
+          <Button onClick={() => signIn()} variant='outline' className='w-full'>
+            <FcGoogle className='size-5 mr-3' />Google
+          </Button>
+          <Button onClick={() => signIn()} variant='outline' className='w-full'>
+            <FaGithub className='size-5 mr-3' />Github
+          </Button>
+        </div>
+      </div>
     </Form>
   )
 }
