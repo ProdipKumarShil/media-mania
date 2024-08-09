@@ -7,23 +7,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Label } from '../../ui/label'
-import { Input } from '../../ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../ui/select'
-import { Button } from '../../ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
+import moment from 'moment'
 
 const BlogCard = ({ blog }) => {
-  console.log(blog)
-  const {title, heading, primaryImage, createdAt, tags, _id} = blog
+  const {title, heading, primaryImage, createdAt, tags, _id, author} = blog
   return (
     <Card className="border-none shadow-none">
       <CardHeader className="p-0 mb-8">
         <Image alt='blog card' src={primaryImage} width={500} height={300} style={{ width: '100%', height: '240px', objectFit: 'cover' }} quality={100} />
       </CardHeader>
       <CardContent className="p-0 space-y-3 mb-6">
-        <p className='text-[#6941C6] font-semibold text-[14px]'>Orlando Diggs • 1 Jan 2023</p>
+        <p className='text-[#6941C6] font-semibold text-[14px]'>{(author?.name.toUpperCase())} • {moment(createdAt).format('DD MMM YYYY')}</p>
         <Link href={`http://localhost:3000/blog/${_id}`} className='text-[24px] hover:underline font-semibold'>{title}</Link>
         <p className='text-base text-[#667085]'>{(heading).slice(0, 70)}...</p>
       </CardContent>
