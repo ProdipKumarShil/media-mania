@@ -11,7 +11,6 @@ import moment from 'moment';
 
 const RecentBlogs = () => {
   const {data, isLoading} = useRecentBlogsQuery()
-  console.log(data)
   
   if(isLoading){
     return <p>Loading...</p>
@@ -34,8 +33,8 @@ const RecentBlogs = () => {
         <Image className='w-full h-[246px] object-cover' width={3000} height={1000} src={primaryImage} alt='blog 2' />
         <div className="">
           <p className='text-[#6941C6] text-[14px] font-semibold mb-3'>{(author?.name.toUpperCase())} • {moment(createdAt).format('DD MMM YYYY')}</p>
-          <p className='text-[24px] font-semibold mb-3'>{title}</p>
-          <p className='text-[#667085] text-base mb-6'>{heading}</p>
+          <Link href={`/blog/${_id}`} className='text-[24px] font-semibold mb-3 hover:underline'>{title}</Link>
+          <p className='text-[#667085] text-base mb-6'>{heading.slice(0, 350)}...</p>
           <div className="flex gap-2 p-0">
             <p className='bg-[#F0F9FF] text-[#026AA2] rounded-full text-[14px] font-medium px-[10px] py-[2px] hover:underline'>{tags[0]}</p>
             <p className='bg-[#ECFDF3] text-[#027A48] rounded-full text-[14px] font-medium px-[10px] py-[2px] hover:underline'>{tags[1]}</p>

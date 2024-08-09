@@ -1,11 +1,12 @@
 import RecentlyPostedBlogs from "@/components/Shared/BlogCard/RecentlyPostedBlogs"
 import BlogComment from "@/components/Shared/BlogComment/BlogComment"
+import moment from "moment"
 import Image from "next/image"
 
 const SingleBlog = async({params}) => {
   const response = await fetch(`http://localhost:3000/api/blog?id=${params.blogId}`)
   const post = await response.json()
-  const {title, heading, primaryImage, secondaryImage, text, _id } = post?.blog
+  const {title, heading, primaryImage, secondaryImage, text, _id, author, createdAt } = post?.blog
   return (
     <div>
       <Image className="w-full h-[458px] object-cover mb-8" quality={100} width={2000} height={2000} src={primaryImage} alt="Single Blog Image" />
@@ -21,7 +22,7 @@ const SingleBlog = async({params}) => {
           <RecentlyPostedBlogs />
         </div>
         <div className=" order-1 md:order-2 w-full md:col-span-8 lg:col-span-9">
-          <p className="text-[#6941C6] text-sm font-semibold mb-8">Sunday , 1 Jan 2023</p>
+          <p className="text-[#6941C6] text-sm font-semibold mb-8">{(author?.name.toUpperCase())} • {moment(createdAt).format('DD MMM YYYY')}</p>
           <p className="text-4xl font-bold mb-8">{title}</p>
           <p className="mb-8 prose lg:prose-xl">{heading}</p>
           <Image className="w-full mb-8 h-[458px] object-cover" quality={100} width={2000} height={2000} src={secondaryImage} alt="Single Blog Image" />
