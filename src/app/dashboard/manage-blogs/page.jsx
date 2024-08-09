@@ -59,9 +59,9 @@ const UserTable = ({ blog, pendingBlog, refetch, pendingBlogsRefetch }) => {
         <Image
           alt="User image"
           className="aspect-square rounded-md object-cover"
-          height="30"
+          height="50"
           src={blog?.primaryImage}
-          width="30"
+          width="50"
         />
       </TableCell>
       <TableCell className="font-medium">
@@ -183,7 +183,7 @@ const ManageBlogs = () => {
           </div>
         </CardHeader>
         <CardContent>
-          {data?.count == 0 && <p className="text-2xl font-bold text-center py-20">'{`${searchItem}`}' Not Found</p>}
+          {data?.count == 0 && <p className="text-2xl font-bold text-center py-20">&apos;{`${searchItem}`}&apos; Not Found</p>}
           {!data?.count == 0 && <Table>
             <TableHeader>
               <TableRow>

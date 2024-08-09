@@ -16,14 +16,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-const chartData = [
-  { month: "January", posts: 186, comments: 80 },
-  { month: "February", posts: 305, comments: 200 },
-  { month: "March", posts: 237, comments: 120 },
-  { month: "April", posts: 73, comments: 190 },
-  { month: "May", posts: 209, comments: 130 },
-  { month: "June", posts: 214, comments: 140 },
-]
+// const chartData = [
+//   { month: "January", posts: 186, comments: 80 },
+//   { month: "February", posts: 305, comments: 200 },
+//   { month: "March", posts: 237, comments: 120 },
+//   { month: "April", posts: 73, comments: 190 },
+//   { month: "May", posts: 209, comments: 130 },
+//   { month: "June", posts: 214, comments: 140 },
+// ]
 
 const chartConfig = {
   desktop: {
@@ -36,7 +36,7 @@ const chartConfig = {
   },
 }
 
-const DBarChart = () => {
+const DBarChart = ({chartData}) => {
   return (
     <Card>
       <CardHeader>

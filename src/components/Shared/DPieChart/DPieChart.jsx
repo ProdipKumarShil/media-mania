@@ -19,11 +19,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 const chartData = [
-  { browser: "gaming", visitors: 275, fill: "var(--color-chrome)" },
-  { browser: "movies", visitors: 200, fill: "var(--color-safari)" },
-  { browser: "fun", visitors: 287, fill: "var(--color-firefox)" },
-  { browser: "freelancing", visitors: 173, fill: "var(--color-edge)" },
-  { browser: "other", visitors: 190, fill: "var(--color-other)" },
+  { category: "Gaming", visitors: 275, fill: "var(--color-chrome)" },
+  { category: "Movies", visitors: 200, fill: "var(--color-safari)" },
+  { category: "Fun", visitors: 287, fill: "var(--color-firefox)" },
+  { category: "Freelancing", visitors: 173, fill: "var(--color-edge)" },
+  { category: "Other", visitors: 190, fill: "var(--color-other)" },
 ]
 // #f9ba32,#426e86,#f8f1e5,#2f3131,#f0810f
 const chartConfig = {
@@ -31,19 +31,19 @@ const chartConfig = {
     label: "Visitors",
   },
   chrome: {
-    label: "Chrome",
+    label: "Gaming",
     color: "#f9ba32",
   },
   safari: {
-    label: "Safari",
+    label: "Movies",
     color: "#426e86",
   },
   firefox: {
-    label: "Firefox",
+    label: "Fun",
     color: "#f8f1e5",
   },
   edge: {
-    label: "Edge",
+    label: "Freelancing",
     color: "#2f3131",
   },
   other: {
@@ -76,7 +76,7 @@ const DPieChart = () => {
             <Pie
               data={chartData}
               dataKey="visitors"
-              nameKey="browser"
+              nameKey="category"
               innerRadius={60}
               strokeWidth={5}
             >

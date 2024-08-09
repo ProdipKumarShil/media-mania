@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { MoreHorizontal, Search, Trash2 } from "lucide-react"
+import { Search, Trash2 } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input"
 import { useDeleteUserMutation, useGetUsersQuery } from "@/redux/api/baseApi"
 import { toast } from "@/components/ui/use-toast"
 import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import moment from "moment"
 
 const UserTable = ({ user, refetch }) => {
   const [deleteUser, { isLoading }] = useDeleteUserMutation()
@@ -44,19 +45,19 @@ const UserTable = ({ user, refetch }) => {
         <Image
           alt="User image"
           className="aspect-square rounded-md object-cover"
-          height="40"
+          height="50"
           src={user?.image}
-          width="40"
+          width="50"
         />
       </TableCell>
       <TableCell className="font-medium">
         {user?.name}
       </TableCell>
       <TableCell>
-        <Badge variant="outline">Admin</Badge>
+        <Badge variant="outline">{user?.role == 'admin' ? <div className="size-2 rounded-full bg-red-500 mr-3"></div> : <div className="size-2 rounded-full bg-green-500 mr-3"></div>} {user?.role} </Badge>
       </TableCell>
       <TableCell className="hidden md:table-cell">
-        12 July, 10:42 AM
+        {moment(user?.createdAt).format('LT, DD MMM YYYY')}
       </TableCell>
       <TableCell>
         <Dialog>

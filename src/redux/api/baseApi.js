@@ -83,8 +83,11 @@ export const baseApi = createApi({
         method: 'GET',
         params: {q: query}
       })
+    }),
+    getChart: builder.query({
+      query: () => '/chart'
     })
   })
 })
 
-export const { useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery, useBlogsByEmailQuery, useSearchBlogsQuery } = baseApi
+export const { useGetBlogsQuery, usePostFormDataMutation, usePostBlogMutation, useDeletePostMutation, usePendingBlogsQuery, useApprovePostMutation, useGetUsersQuery, useCommentMutation, useGetCommentQuery, useGetAllCommentsQuery, useDeleteCommentMutation, useDeleteUserMutation, useRecentBlogsQuery, useBlogsByEmailQuery, useSearchBlogsQuery, useGetChartQuery } = baseApi
