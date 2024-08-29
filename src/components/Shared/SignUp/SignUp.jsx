@@ -50,12 +50,12 @@ const LoginPage = () => {
   const onSubmit = async (value) => {
     try {
       const response = await postFormData(value).unwrap()
-
+      console.log(response)
       if (response?.status) {
         router.push('/dashboard')
       }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

@@ -21,7 +21,7 @@ export async function POST(req) {
     await User.create(body)
     return NextResponse.json({message: 'User Created', status: true}, {status: 201})
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     return NextResponse.json({message: 'Error', error, status: false}, {status: '500'})
   }
 }

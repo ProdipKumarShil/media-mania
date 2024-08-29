@@ -5,15 +5,15 @@ const URI = process.env.DB_URI
 
 const connect = async () => {
   const connectionState = mongoose.connection.readyState
-  console.log(connectionState)
+  // console.log(connectionState)
 
   if(connectionState === 1){
-    console.log('Already connected')
+    // console.log('Already connected')
     return
   }
 
   if(connectionState === 2){
-    console.log('connecting...')
+    // console.log('connecting...')
     return
   }
 
@@ -23,7 +23,7 @@ const connect = async () => {
       bufferCommands: true
     })
   } catch (error) {
-    console.log("Error: ", err)
+    // console.log("Error: ", err)
     throw new Error('Error: ', err)
   }
 }

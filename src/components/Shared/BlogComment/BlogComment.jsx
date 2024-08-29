@@ -26,7 +26,7 @@ const commentSchema = z.object({
 
 const BlogComment = ({ id }) => {
   const user = useUser()?.user
-  console.log(user)
+  // console.log(user)
   const [comment, { isLoading }] = useCommentMutation()
   const { data, isLoading: commentLoading, refetch } = useGetCommentQuery({ id: id, email: user?.email })
 
@@ -76,7 +76,7 @@ const BlogComment = ({ id }) => {
       return false
     }
   }
-  console.log(commentIsLoading())
+  // console.log(commentIsLoading())
   return (
     <div className="">
       <h2 className='text-2xl font-semibold py-5'>Comments</h2>

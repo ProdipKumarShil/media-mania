@@ -118,7 +118,7 @@ const ManageBlogs = () => {
   const { data: pendingBlogs, isLoading: pendingBlogsLoading, refetch: pendingBlogsRefetch } = usePendingBlogsQuery()
 
   const [searchItem, setSearchItem] = useState('')
-  console.log(searchItem)
+  // console.log(searchItem)
   const { data, refetch, isLoading } = useSearchBlogsQuery(searchItem)
   const handleInput = (e) => {
     setSearchItem(e.target.value)

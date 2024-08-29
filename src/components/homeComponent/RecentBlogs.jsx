@@ -71,7 +71,7 @@ const RightCard = ({blog}) => {
       <Image src={primaryImage} width={3000} height={1000} className='w-full h-[200px] object-cover md:col-span-5 lg:col-span-6 mb-6 md:mb-0' alt='Image' />
       <div className="md:col-span-7 lg:col-span-6">
         <p className='text-[#6941C6] mb-3 text-[14px] font-semibold'>{(author?.name).toUpperCase()} • {moment(createdAt).format('DD MMM YYYY')}</p>
-        <Link href={`/blog/${_id}`} className='text-[18px] hover:underline font-semibold'>{title}</Link>
+        <Link href={`https://media-mania-three.vercel.app/blog/${_id}`} className='text-[18px] hover:underline font-semibold'>{title}</Link>
         <p className='text-[#667085] text-[16px] mb-6'>{heading.slice(0, 80)}...  </p>
         <div className="flex gap-2 p-0">
           <p className='bg-[#F0F9FF] text-[#026AA2] rounded-full text-[14px] font-medium px-[10px] py-[2px] hover:underline cursor-pointer'>{tags[0]}</p>

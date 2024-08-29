@@ -46,7 +46,7 @@ const UpgradeCard = () => {
 
 const layout = async({ children }) => {
   const session = await getServerSession(authOptions)
-  console.log(session)
+  // console.log(session)
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -91,7 +91,7 @@ const layout = async({ children }) => {
               <DropdownMenuSeparator />
               <DropdownMenuLabel className='flex items-center justify-between'><p>Theme</p> <ModeToggle /></DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuLabel><Link href='http://localhost:3000/api/auth/signout?callbackUrl=/'>Logout</Link></DropdownMenuLabel>
+              <DropdownMenuLabel><Link href='https://media-mania-three.vercel.app/api/auth/signout?callbackUrl=/'>Logout</Link></DropdownMenuLabel>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

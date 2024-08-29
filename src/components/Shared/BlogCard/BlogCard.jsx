@@ -20,7 +20,7 @@ const BlogCard = ({ blog }) => {
       </CardHeader>
       <CardContent className="p-0 space-y-3 mb-6">
         <p className='text-[#6941C6] font-semibold text-[14px]'>{(author?.name.toUpperCase())} • {moment(createdAt).format('DD MMM YYYY')}</p>
-        <Link href={`http://localhost:3000/blog/${_id}`} className='text-[24px] hover:underline font-semibold'>{title}</Link>
+        <Link href={`https://media-mania-three.vercel.app/blog/${_id}`} className='text-[24px] hover:underline font-semibold'>{title}</Link>
         <p className='text-base text-[#667085]'>{(heading).slice(0, 70)}...</p>
       </CardContent>
       <CardFooter className="flex gap-2 p-0">

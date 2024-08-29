@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const baseApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://media-mania-three.vercel.app/api' }),  // https://media-mania-three.vercel.app/  http://localhost:3000/
   endpoints: (builder) => ({
     getBlogs: builder.query({
       query: () => '/blog/all-blogs'

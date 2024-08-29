@@ -39,12 +39,12 @@ export const GET = async () => {
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     const currentMonth = currentDate.month()
-    console.log(currentMonth)
+    // console.log(currentMonth)
     const last5Months = Array.from({ length: 5 }, (_, i) => {
       const monthIndex = (currentMonth - i + 12) % 12
       return monthIndex
     }).reverse()
-    console.log(last5Months)
+    // console.log(last5Months)
 
     const data = last5Months.map(monthIndex => {
       const blog = blogData.find(b => b._id === monthIndex + 1) || { posts: 0 }
@@ -76,7 +76,7 @@ export const GET = async () => {
 
     return NextResponse.json({ status: true, data, categoryData })
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     return NextResponse.json({ status: false, message: 'Something went wrong' }, { status: 500 })
   }
 }

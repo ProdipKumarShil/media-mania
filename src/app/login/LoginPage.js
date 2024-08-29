@@ -47,13 +47,13 @@ const LoginPage = () => {
         password: value?.password,
         redirect: false
       })
-      console.log(res)
+      // console.log(res)
       if(res.error){
-        console.log('Invalid Credentials')
+        // console.log('Invalid Credentials')
       }
       router.replace('dashboard')
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

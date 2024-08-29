@@ -10,7 +10,7 @@ export const GET = async() => {
     const count = pendingBlogs.length
     return NextResponse.json({status: true, count, pendingBlogs}, {status: 200})
   } catch (error) {
-    console.log(error)
+    // console.log(error)
     return NextResponse.json({status: false, message: 'Something went wrong'}, {status: 500})
   }
 }

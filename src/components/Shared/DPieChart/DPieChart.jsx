@@ -50,7 +50,7 @@ const chartConfig = {
 }
 
 const DPieChart = ({pieData}) => {
-  console.log(pieData)
+  // console.log(pieData)
   const totalTags = pieData?.reduce((acc, item) => acc + item.tagCount, 0)
   const totalVisitors = 500
 

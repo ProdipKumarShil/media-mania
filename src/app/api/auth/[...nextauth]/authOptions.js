@@ -20,7 +20,7 @@ const addUser = async(user) => {
       return response?._doc
     }
   } catch(error) {
-    console.log(error)
+    // console.log(error)
   }
 }
 
@@ -97,7 +97,7 @@ export const authOptions = {
             }
           }
         } catch (error) {
-          console.log(error)
+          // console.log(error)
         }
       }
     },

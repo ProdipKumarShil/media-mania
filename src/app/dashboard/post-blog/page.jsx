@@ -50,15 +50,15 @@ const PostBlog = () => {
   const onSubmit = async (value) => {
     value.author = user
     value.approved = false
-    console.log(value)
+    // console.log(value)
     try {
       const response = await postBlog(value).unwrap()
-      console.log(response)
+      // console.log(response)
       if(response?.status){
         Router.push('/dashboard/my-blogs')
       }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

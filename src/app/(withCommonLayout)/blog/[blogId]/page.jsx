@@ -4,7 +4,7 @@ import moment from "moment"
 import Image from "next/image"
 
 const SingleBlog = async({params}) => {
-  const response = await fetch(`http://localhost:3000/api/blog?id=${params.blogId}`)
+  const response = await fetch(`https://media-mania-three.vercel.app/api/blog?id=${params.blogId}`)
   const post = await response.json()
   const {title, heading, primaryImage, secondaryImage, text, _id, author, createdAt } = post?.blog
   return (
