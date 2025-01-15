@@ -6,7 +6,7 @@ export default withAuth(
     // console.log(req.nextUrl.pathname)
     // console.log(req.nextauth.token.role)
 
-    if(req.nextUrl.pathname.startsWith('/blogs') && req.nextauth.token.role != 'admin') {
+    if(req.nextUrl.pathname.startsWith('/dashboard/manage-blogs') && req.nextauth.token.role != 'admin') {
       return NextResponse.rewrite(new URL('/denied', req.url))
     }
   },
@@ -17,4 +17,4 @@ export default withAuth(
   }
 )
 
-export const config = {matcher: ['/blogs']}
+export const config = {matcher: ['/dashboard/manage-blogs']}
